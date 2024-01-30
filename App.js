@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { apiHost } = require('./Config'); // Update the path accordingly
+const {host } = require('./Config'); // Update the path accordingly
 const app = express();
 const cors = require('cors');
+const getSimulation  = require('./Services/Simulation/Simulation')
 
 const versionRoutes = require('./Version/Version');
 const summaryRoutes = require('./Summary/Summary');
@@ -15,8 +16,14 @@ app.use((req, res, next) => {
     next();
   });
 
-app.listen(process.env.PORT || 3031, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3031}`);
+app.listen(host, () => {
+  console.log(`Server is running on port ${host}`);
+  getSimulation().then((data) => {
+
+    console.log(data)
+
+  })
+
 });
 
 
