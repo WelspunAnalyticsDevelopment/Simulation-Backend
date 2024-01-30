@@ -66,8 +66,8 @@ const dummyData = [
 
   },
   thisYear: {
-    aprilSaleableUnit: 100,
-    aprilRate: 3000,
+    aprilSaleableUnit: 1900,
+    aprilRate: 3040,
     aprilValue: 4000,
     aprilUSDN: 5000,
    
@@ -114,7 +114,7 @@ const dummyData = [
     januarySaleableUnit: 200,
     januaryRate: 400,
     januaryValue: 4000,
-    januaryUSDN:5000,
+    januaryUSDN: 5000,
   
     februarySaleableUnit: 200,
     februaryRate: 400,
@@ -179,7 +179,7 @@ const dummyData = [
     januarySaleableUnit: 200,
     januaryRate: 400,
     januaryValue: 4000,
-    januaryUSDN:5000,
+    januaryUSDN: 5000,
   
     februarySaleableUnit: 200,
     februaryRate: 400,
@@ -221,12 +221,12 @@ const dummyData = [
     septemberSaleableUnit: 200,
     septemberRate: 400,
     septemberValue: 4000,
-    SeptemberUSDN : 5000,
+    septemberUSDN : 5000,
   
     octoberSaleableUnit: 200,
     octoberRate: 400,
     octoberValue: 4000,
-    octuberUSDN: 5000,
+    octoberUSDN: 5000,
 
     novemberSaleableUnit: 200,
     novemberRate: 400,
@@ -241,7 +241,7 @@ const dummyData = [
     januarySaleableUnit: 200,
     januaryRate: 400,
     januaryValue: 4000,
-    junuaryUSDN:5000,
+    januaryUSDN: 34000,
   
     februarySaleableUnit: 200,
     februaryRate: 400,
