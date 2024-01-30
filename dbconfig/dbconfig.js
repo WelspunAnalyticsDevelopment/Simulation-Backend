@@ -3,9 +3,9 @@ const {userName, password, server, database} = require('../Config')
 
 // Database configuration
 const config = {
-  user: 'Welspun_Analytics',
-  password: 'Welspun@123',
-  server: '192.168.50.68',
+  user: 
+  password: 
+  server: 
   database: 'DB_MARKETING',
   options: {
     encrypt: true,
