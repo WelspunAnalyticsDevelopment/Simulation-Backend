@@ -3,11 +3,12 @@ const bodyParser = require('body-parser');
 const {host } = require('./Config'); // Update the path accordingly
 const app = express();
 const cors = require('cors');
-const getSimulation  = require('./Services/Simulation/Simulation')
+
 
 const versionRoutes = require('./Version/Version');
 const summaryRoutes = require('./Summary/Summary');
 const simulationRoutes = require('./Simulation/Simulation');
+const { get } = require('http');
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
@@ -16,14 +17,8 @@ app.use((req, res, next) => {
     next();
   });
 
-app.listen(host, () => {
-  console.log(`Server is running on port ${host}`);
-  getSimulation().then((data) => {
-
-    console.log(data)
-
-  })
-
+app.listen(host || 3031, () => {
+  console.log(`Server is running on port ${host || 3031}`);
 });
 
 

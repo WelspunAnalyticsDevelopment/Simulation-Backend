@@ -1,5 +1,9 @@
 const express = require('express');
+const getSimulation  = require('../Services/Simulation/Simulation');
 const router = express.Router();
+// import { pool } from "mssql";
+
+const jsonData  = require('../AppConfig/anjar.json');
 
 const dummyData = [
   {customerName: "Costco",
@@ -258,8 +262,52 @@ const dummyData = [
 ]
 
 router.get('/', (req, res) => {
-  
-  res.json(dummyData);
+  query=""
+  jsonData.map(({key,value}, index) => {
+    if(index===0){
+      query+=`Select ${key} as ${value},`
+    }
+    else if(index>0 && index !== jsonData.length-1){
+      query+= `${key} as ${value},`
+    }
+    else{
+     query+= `${key} as ${value} from SALESPLAN_SIMULATION`
+    }
+  })
+
+  getSimulation(query).then((data) => {
+
+    // console.log(data)
+    res.json(data);
+
+  })
 });
+
+
+router.get('/test', (req, res)=>{
+  query=""
+  jsonData.map(({key,value}, index) => {
+    if(index===0){
+      query+=`Select ${key} as ${value},`
+    }
+    else if(index>0 && index !== jsonData.length-1){
+      query+= `${key} as ${value},`
+    }
+    else{
+     query+= `${key} as ${value} from SALESPLAN_SIMULATION`
+    }
+  })
+  console.log(query, "query");
+
+  getSimulation().then((data) => {
+
+    // console.log(data)
+    res.json(data);
+
+  })
+});
+
+
+
 
 module.exports = router;
