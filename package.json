@@ -1,0 +1,24 @@
+{
+  "name": "simulation_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon App.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.2",
+    "express": "^4.18.2",
+    "install": "^0.13.0",
+    "mssql": "^10.0.2",
+    "nodemon": "^3.0.3",
+    "npm": "^10.3.0",
+    "tedious": "^16.6.1"
+  }
+}
