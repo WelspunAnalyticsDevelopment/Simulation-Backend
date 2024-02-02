@@ -1,5 +1,6 @@
 
- [
+[
+    
     {
         "key": "[END_CUSTOMER_NAME]",
         "value": "customerName"
@@ -9,6 +10,10 @@
         "value": "aprilSaleableUnit"
     },
     {
+        "key": "[APR_RATE_AS_PER_CURRENCY]",
+        "value": "aprilRate"
+    },
+    {
         "key": "[APRIL_VALUE]",
         "value": "aprilValue"
     },
@@ -16,157 +21,167 @@
         "key": "[APRIL_USDN]",
         "value": "aprilUSDN"
     },
-    {
-        "key": "[APR_RATE_AS_PER_CURRENCY]",
-        "value": "aprilRate"
-    },
+    
     {
         "key": "[MAY_(SALEABLE_UNITS)]",
         "value": "maySaleableUnit"
     },
     {
-        "key": "[MAY_KGS]",
-        "value": "mayValue"
+        "key": "[MAY_RATE_AS_PER_CURRENCY]",    
+        "value": "mayRate"
     },
     {
         "key": "[MAY_VALUE]",
-        "value": "mayUSDN"
+        "value": "mayValue"
     },
     {
         "key": "[MAY_USDN]",
-        "value": "mayRate"
+        "value": "mayUSDN"
     },
+    
     {
         "key": "[JUN_(SALEABLE_UNITS)]",
         "value": "juneSaleableUnit"
     },
     {
-        "key": "[JUNE_(TOTAL_KGS)]",
+        "key": "[JUN_RATE_AS_PER_CURRENCY]",
+        "value": "juneRate"
+    },
+    {
+        "key": "[JUNE_VALUE]",
         "value": "juneValue"
     },
     {
-        "key": "[JULY_VALUE]",
+        "key": "[JULY_USDN]",
         "value": "juneUSDN"
     },
-    {
-        "key": "[JUNE_USDN]",
-        "value": "juneRate"
-    },
+    
     {
         "key": "[JULY_(SALEABLE_UNITS)]",
         "value": "julySaleableUnit"
     },
     {
-        "key": "[JULY_KGS]",
-        "value": "julyValue"
-    },
-    {
-        "key": "[JULY_VALUE]",
-        "value": "julyUSDN"
-    },
-    {
-        "key": "[JULY_USDN]",
+        "key": "[JUL_RATE_AS_PER_CURRENCY]",
         "value": "julyRate"
     },
     {
+        "key": "[JULY_VALUE]",
+        "value": "julyValue"
+    },
+    {
+        "key": "[JULY_USDN]",
+        "value": "julyUSDN"
+    },
+    
+    {
         "key": "[AUGUST_(SALEABLE_UNITS)]",
-        "value": "augSaleableUnit"
-    },
-    {
-        "key": "[AUG_KGS]",
-        "value": "augustValue"
-    },
-    {
-        "key": "[AUG_VALUE]",
         "value": "augustSaleableUnit"
     },
     {
-        "key": "[AUG_USDN]",
+        "key": "[AUG_RATE_AS_PER_CURRENCY]",
         "value": "augustRate"
+    },
+    {
+        "key": "[AUG_VALUE]",
+        "value": "augustValue"
+    },
+    
+    {
+        "key": "[AUG_USDN]",
+        "value": "augustUSDN"
     },
     {
         "key": "[SEP_(SALEABLE_UNITS)]",
         "value": "septemberSaleableUnit"
     },
     {
-        "key": "[SEP_KGS]",
-        "value": "septemberValue"
+        "key": "[SEP_RATE_AS_PER_CURRENCY]",
+        "value": "septemberRate"
     },
     {
         "key": "[SEPT_VALUE]",
-        "value": "septemberUSDN"
+        "value": "septemberValue"
     },
     {
         "key": "[SEPT_USDN]",
-        "value": "septemberRate"
+        "value": "septemberUSDN"
     },
+    
     {
         "key": "[OCT_PCS]",
         "value": "octoberSaleableUnit"
     },
     {
-        "key": "[OCTOBER(TOTAL_KGS)]",
-        "value": "octoberValue"
+        "key": "[OCT_RATE_AS_PER_CURRENCY]",
+        "value": "octoberRate"
     },
     {
         "key": "[OCT_(VALUE)]",
-        "value": "octoberUSDN"
+        "value": "octoberValue"
     },
     {
         "key": "[OCTOBER_(USDN)]",
-        "value": "octoberRate"
+        "value": "octoberUSDN"
     },
+    
     {
         "key": "[NOVEMBER_(SALEABLE_UNITS)]",
         "value": "novemberSaleableUnit"
     },
     {
-        "key": "[NOVEMBER(TOTAL_KGS)]",
-        "value": "novemberValue"
+        "key": "[NOV_RATE_AS_PER_CURRENCY]",
+        "value": "novemberRate"
     },
     {
         "key": "[NOV_VALUE]",
-        "value": "novemberUSDN"
+        "value": "novemberValue"
     },
     {
         "key": "[NOV_USDN]",
-        "value": "novemberRate"
+        "value": "novemberUSDN"
     },
+    
     {
         "key": "[DECEMBER_(SALEABLE_UNITS)]",
         "value": "decemberSaleableUnit"
     },
     {
-        "key": "[DECEMBER(TOTAL_KGS)]",
-        "value": "decemberValue"
+        "key": "[DEC_RATE_AS_PER_CURRENCY]",
+        "value": "decemberRate"
     },
     {
         "key": "[DEC_VALUE]",
-        "value": "decemberUSDN"
+        "value": "decemberValue"
     },
     {
         "key": "[DEC_USDN]",
-        "value": "decemberRate"
+        "value": "decemberUSDN"
     },
+    
     {
         "key": "[JANUARY_(SALEABLE_UNITS)]",
         "value": "januarySaleableUnit"
     },
     {
-        "key": "[JAN_KGS]",
-        "value": "januaryValue"
-    },
-    {
-        "key": "[JAN_VALUE]",
-        "value": "januaryUSDN"
-    },
-    {
-        "key": "[JAN_USDN]",
+        "key": "[JAN_RATE_AS_PER_CURRENCY]",
         "value": "januaryRate"
     },
     {
+        "key": "[JAN_VALUE]",
+        "value": "januaryValue"
+    },
+    {
+        "key": "[JAN_USDN]",
+        "value": "januaryUSDN"
+    },
+    
+    {
         "key": "[FEBRUARY_(SALEABLE_UNITS)]",
         "value": "februarySaleableUnit"
+    },
+    {
+        "key": "[FEB_RATE_AS_PER_CURRENCY]",
+        "value": "februaryRate"
     },
     {
         "key": "[FEB_VALUE]",
@@ -176,13 +191,14 @@
         "key": "[FEB_USDN]",
         "value": "februaryUSDN"
     },
-    {
-        "key": "[FEB_RATE_AS_PER_CURRENCY]",
-        "value": "februaryRate"
-    },
+    
     {
         "key": "[MARCH_(SALEABLE_UNITS)]",
         "value": "marchSaleableUnit"
+    },
+    {
+        "key": "[MAR_RATE_AS_PER_CURRENCY]",
+        "value": "marchRate"
     },
     {
         "key": "[MAR_VALUE]",
@@ -191,10 +207,6 @@
     {
         "key": "[MAR_USDN]",
         "value": "marchUSDN"
-    },
-    {
-        "key": "[MAR_RATE_AS_PER_CURRENCY]",
-        "value": "marchRate"
     }
+    
 ]
-
