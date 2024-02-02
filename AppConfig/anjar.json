@@ -1,6 +1,9 @@
 
 [
-    
+    {
+        "key": "[UNIQUE_IDENTIFICATION_NO]",
+        "Value": "id"
+    },
     {
         "key": "[END_CUSTOMER_NAME]",
         "value": "customerName"

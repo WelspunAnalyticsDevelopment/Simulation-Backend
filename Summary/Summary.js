@@ -265,13 +265,13 @@ router.get('/', (req, res) => {
   query=""
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select ${key} as ${value},`
+      query+=`Select TOP(10) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
     }
     else{
-     query+= `${key} as ${value} from SALESPLAN_SIMULATION`
+     query+= `${key} as ${value} from SALESPLAN_SIMULATION WHERE [UNIQUE_IDENTIFICATION_NO] is not NULL`
     }
   })
 
@@ -282,32 +282,6 @@ router.get('/', (req, res) => {
 
   })
 });
-
-
-router.get('/test', (req, res)=>{
-  query=""
-  jsonData.map(({key,value}, index) => {
-    if(index===0){
-      query+=`Select ${key} as ${value},`
-    }
-    else if(index>0 && index !== jsonData.length-1){
-      query+= `${key} as ${value},`
-    }
-    else{
-     query+= `${key} as ${value} from SALESPLAN_SIMULATION`
-    }
-  })
-  console.log(query, "query");
-
-  getSimulation().then((data) => {
-
-    // console.log(data)
-    res.json(data);
-
-  })
-});
-
-
 
 
 module.exports = router;
