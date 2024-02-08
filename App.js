@@ -22,16 +22,15 @@ app.listen(host || 3031, () => {
 });
 
 
+app.use(bodyParser.json());
+
 app.use('/version',versionRoutes);
 
 app.use('/summary',summaryRoutes);
 
 app.use('/simulation',simulationRoutes);
 
-app.post('/simulation', (req, res) => {
-  const postData = req.body;
-  res.status(201).json({ message: 'post created successfully', data: postData });
-});
+
 
       
 

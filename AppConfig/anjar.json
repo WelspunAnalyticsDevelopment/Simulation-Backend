@@ -1,12 +1,37 @@
 
 [
     {
-        "key": "[UNIQUE_IDENTIFICATION_NO]",
-        "Value": "id"
-    },
-    {
         "key": "[END_CUSTOMER_NAME]",
         "value": "customerName"
+    },
+    {
+        "key": "[PROGRAM]",
+        "value" : "program"
+    },
+    {
+        "key" : "[PRODUCT_CAT]",
+        "value" : "productCat"
+    },
+    {
+        "key" : "[PLANT]",
+        "value" : "plant"
+    },
+    {
+        "key" : "[UNIQUE_IDENTIFICATION_NO]",
+        "value" : "uniqueIdentificationNo"
+    },
+    {
+        "key" : "[PRODUCT_SUBCAT]",
+        "value" : "productSubCat"
+    },
+    
+    {
+        "key" : "[TEAM_LEADER]",
+        "value" : "teamLeader"
+    },
+    {
+        "key" : "[REGION]",
+        "value" : "region"
     },
     {
         "key": "[APR_(SALEABLE_UNITS)]",
@@ -55,7 +80,7 @@
         "value": "juneValue"
     },
     {
-        "key": "[JULY_USDN]",
+        "key": "[JUNE_USDN]",
         "value": "juneUSDN"
     },
     

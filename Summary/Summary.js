@@ -1,271 +1,17 @@
 const express = require('express');
-const getSimulation  = require('../Services/Simulation/Simulation');
+const {getSimulation,setSimulation, getChartSimulatedData}  = require('../Services/Simulation/Simulation');
 const router = express.Router();
-// import { pool } from "mssql";
 
 const jsonData  = require('../AppConfig/anjar.json');
+const { json } = require('body-parser');
 
-const dummyData = [
-  {customerName: "Costco",
-  lastYear : {
-    aprilSaleableUnit: 100,
-    aprilRate: 3000,
-    aprilValue: 4000,
-    aprilUSDN: 5000,
-   
-    maySaleableUnit: 600,
-    mayRate: 700,
-    mayValue: 4000,
-    mayUSDN: 5000,
 
-    juneSaleableUnit: 200,
-    juneRate: 400,
-    juneValue: 4000,
-    juneUSDN : 5000,
-  
-    julySaleableUnit: 200,
-    julyRate: 400,
-    julyValue: 4000,
-    julyUSDN : 5000,
-  
-    augustSaleableUnit: 200,
-    augustRate: 400,
-    augustValue: 4000,
-    augustUSDN : 5000,
-  
-    septemberSaleableUnit: 200,
-    septemberRate: 400,
-    septemberValue: 4000,
-    septemberUSDN : 5000,
-  
-    octoberSaleableUnit: 200,
-    octoberRate: 400,
-    octoberValue: 4000,
-    octoberUSDN: 5000,
-
-    novemberSaleableUnit: 200,
-    novemberRate: 400,
-    novemberValue: 4000,
-    novemberUSDN:5000,
-   
-    decemberSaleableUnit: 200,
-    decemberRate: 400,
-    decemberValue: 4000,
-    decemberUSDN:5000,
-  
-    januarySaleableUnit: 200,
-    januaryRate: 400,
-    januaryValue: 4000,
-    januaryUSDN:5000,
-  
-    februarySaleableUnit: 200,
-    februaryRate: 400,
-    februaryValue: 4000,
-    februaryUSDN: 5000,
-  
-    marchSaleableUnit: 200,
-    marchRate: 400,
-    marchValue: 4000,
-    marchUSDN:5000
-
-  },
-  thisYear: {
-    aprilSaleableUnit: 1900,
-    aprilRate: 3040,
-    aprilValue: 4000,
-    aprilUSDN: 5000,
-   
-    maySaleableUnit: 600,
-    mayRate: 700,
-    mayValue: 4000,
-    mayUSDN: 5000,
-
-    juneSaleableUnit: 200,
-    juneRate: 400,
-    juneValue: 4000,
-    juneUSDN : 5000,
-  
-    julySaleableUnit: 200,
-    julyRate: 400,
-    julyValue: 4000,
-    julyUSDN : 5000,
-  
-    augustSaleableUnit: 200,
-    augustRate: 400,
-    augustValue: 4000,
-    augustUSDN : 5000,
-  
-    septemberSaleableUnit: 200,
-    septemberRate: 400,
-    septemberValue: 4000,
-    septemberUSDN : 5000,
-  
-    octoberSaleableUnit: 200,
-    octoberRate: 400,
-    octoberValue: 4000,
-    octoberUSDN: 5000,
-
-    novemberSaleableUnit: 200,
-    novemberRate: 400,
-    novemberValue: 4000,
-    novemberUSDN:5000,
-   
-    decemberSaleableUnit: 200,
-    decemberRate: 400,
-    decemberValue: 4000,
-    decemberUSDN:5000,
-  
-    januarySaleableUnit: 200,
-    januaryRate: 400,
-    januaryValue: 4000,
-    januaryUSDN: 5000,
-  
-    februarySaleableUnit: 200,
-    februaryRate: 400,
-    februaryValue: 4000,
-    februaryUSDN: 5000,
-  
-    marchSaleableUnit: 200,
-    marchRate: 400,
-    marchValue: 4000,
-    marchUSDN:5000
-
-  }
-},
-{
-  customerName: "Walmart",
-  lastYear: {
-    aprilSaleableUnit: 100,
-    aprilRate: 3000,
-    aprilValue: 4000,
-    aprilUSDN: 5000,
-   
-    maySaleableUnit: 600,
-    mayRate: 700,
-    mayValue: 4000,
-    mayUSDN: 5000,
-
-    juneSaleableUnit: 200,
-    juneRate: 400,
-    juneValue: 4000,
-    juneUSDN : 5000,
-  
-    julySaleableUnit: 200,
-    julyRate: 400,
-    julyValue: 4000,
-    julyUSDN : 5000,
-  
-    augustSaleableUnit: 200,
-    augustRate: 400,
-    augustValue: 4000,
-    augustUSDN : 5000,
-  
-    septemberSaleableUnit: 200,
-    septemberRate: 400,
-    septemberValue: 4000,
-    septemberUSDN : 5000,
-  
-    octoberSaleableUnit: 200,
-    octoberRate: 400,
-    octoberValue: 4000,
-    octoberUSDN: 5000,
-
-    novemberSaleableUnit: 200,
-    novemberRate: 400,
-    novemberValue: 4000,
-    novemberUSDN:5000,
-   
-    decemberSaleableUnit: 200,
-    decemberRate: 400,
-    decemberValue: 4000,
-    decemberUSDN:5000,
-  
-    januarySaleableUnit: 200,
-    januaryRate: 400,
-    januaryValue: 4000,
-    januaryUSDN: 5000,
-  
-    februarySaleableUnit: 200,
-    februaryRate: 400,
-    februaryValue: 4000,
-    februaryUSDN: 5000,
-  
-    marchSaleableUnit: 200,
-    marchRate: 400,
-    marchValue: 4000,
-    marchUSDN:5000
-
-  },
-  thisYear: {
-    aprilSaleableUnit: 100,
-    aprilRate: 3000,
-    aprilValue: 4000,
-    aprilUSDN: 5000,
-   
-    maySaleableUnit: 600,
-    mayRate: 700,
-    mayValue: 4000,
-    mayUSDN: 5000,
-
-    juneSaleableUnit: 200,
-    juneRate: 400,
-    juneValue: 4000,
-    juneUSDN : 5000,
-  
-    julySaleableUnit: 200,
-    julyRate: 400,
-    julyValue: 4000,
-    julyUSDN : 5000,
-  
-    augustSaleableUnit: 200,
-    augustRate: 400,
-    augustValue: 4000,
-    augustUSDN : 5000,
-  
-    septemberSaleableUnit: 200,
-    septemberRate: 400,
-    septemberValue: 4000,
-    septemberUSDN : 5000,
-  
-    octoberSaleableUnit: 200,
-    octoberRate: 400,
-    octoberValue: 4000,
-    octoberUSDN: 5000,
-
-    novemberSaleableUnit: 200,
-    novemberRate: 400,
-    novemberValue: 4000,
-    novemberUSDN:5000,
-   
-    decemberSaleableUnit: 200,
-    decemberRate: 400,
-    decemberValue: 4000,
-    decemberUSDN:5000,
-  
-    januarySaleableUnit: 200,
-    januaryRate: 400,
-    januaryValue: 4000,
-    januaryUSDN: 34000,
-  
-    februarySaleableUnit: 200,
-    februaryRate: 400,
-    februaryValue: 4000,
-    februaryUSDN: 5000,
-  
-    marchSaleableUnit: 200,
-    marchRate: 400,
-    marchValue: 4000,
-    marchUSDN:5000
-
-  }
-}
-]
 
 router.get('/', (req, res) => {
   query=""
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select TOP(10) ${key} as ${value},`
+      query+=`Select TOP(15) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
@@ -277,10 +23,255 @@ router.get('/', (req, res) => {
 
   getSimulation(query).then((data) => {
 
-    // console.log(data)
     res.json(data);
 
   })
+});
+
+
+//querry to save simulated data in the newly created table.
+
+
+router.post('/save-data', async(req, res) => {
+  try {
+
+  var query=""
+  
+  jsonData.map(({key,value}, index) => {
+    if(index===0){
+      query+=`Insert INTO SIMULATION_OUTPUT ( [VERSION_NO] , ${key},`
+    }
+    else if(index > 0 && index !== jsonData.length-1){
+      query+= `${key},`
+    }
+    else{
+    query+= ` ${key}) Values`
+    }
+  })
+    var summaryData = ""
+     req.body.dataTableAnnual.map(({customerName, thisYear},index)=>{
+      if(index == 0 ){
+       
+        summaryData += `( '${req.body.textValue}-V-${req.body.numberValue}', '${customerName}' , '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}' , '${thisYear.region}' , ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN}),`
+      }
+      else if(index > 0 && index !== req.body.dataTableAnnual.length-1){
+        summaryData+= `( '${req.body.textValue}-V-${req.body.numberValue}', '${customerName}' , '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}' , '${thisYear.region}' , ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN}),`
+      }
+      else{
+      summaryData += `( '${req.body.textValue}-V-${req.body.numberValue}', '${customerName}', '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}', '${thisYear.region}' ,  ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN})`
+      }
+    })
+    console.log(query,summaryData);
+    setSimulation(query + summaryData).then((data) => {
+      
+      res.json(data);
+  
+    })
+
+  } catch (error) {
+    console.error('Error saving data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+// Get Saved simulated data 
+
+router.get("/getVersion",(req,res) => {
+  var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT GROUP BY [VERSION_NO]`
+  
+  console.log(query)
+
+  setSimulation(query).then((data) => {
+    console.log(data);
+    res.json(data.recordset);
+  })
+})
+
+router.get("/savedSimulatedData",(req,res)=> {
+  console.log("version name---------- ",req.query);
+  var query = ""
+  jsonData.map(({key,value}, index) => {
+    if(index===0){
+      query+=`Select ${key} as ${value},`
+    }
+    else if(index>0 && index !== jsonData.length-1){
+      query+= `${key} as ${value},`
+    }
+    else{
+      query+= `${key} as ${value} from SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.version}'`
+
+    }
+    console.log("querry---->",query);
+
+  })
+
+  getSimulation(query).then((data) => {
+
+    res.json(data);
+
+  })
+
+})
+
+
+router.get("/checkDuplicateVersion", (req, res) => {
+  
+  // Access query parameters using req.query
+
+  var query = `SELECT COUNT(*) As total_count FROM SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.textValue}-V-${req.query.numberValue}'`;
+  console.log(query);
+  
+  setSimulation(query).then((data) => {
+    
+    console.log("data------", data.recordsets[0][0]["total_count"]);
+
+    res.json(data.recordsets[0][0]["total_count"]);
+
+  })
+});
+
+
+
+// API to get chart Data
+
+router.get("/chartsData",(req,res) => {
+
+  var query = `select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [REGION] from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [REGION]` 
+
+  console.log("query to get pie-chart data :- ",query);
+  
+  getChartSimulatedData(query).then((data) => {
+
+    res.json(data);
+    console.log(data);
+
+  })
+
+})
+
+router.get("/pieChartCustomer",(req,res)=>{
+
+  var query = `
+select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [END_CUSTOMER_NAME] as 'endCustomerName' from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [END_CUSTOMER_NAME]`
+
+  console.log("get pie chart data for customers ---------",query)
+  
+  getChartSimulatedData(query).then((data) => {
+
+    res.json(data);
+    console.log(data);
+
+  })
+
+})
+
+router.get("/barCharData",(req,res) => {
+
+  var query = `with NEW_SIMULATION_OUTPUT AS (
+    select * from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}'
+   )
+   SELECT 
+      
+       SUM(old.[APR_(SALEABLE_UNITS)]) AS old_apr_saleableUnit,
+       SUM(new.[APR_(SALEABLE_UNITS)]) AS new_apr_saleableUnit,
+       SUM(old.[APRIL_VALUE]) AS old_apr_value,
+       SUM(new.[APRIL_VALUE]) AS new_apr_value,
+       SUM(old.[MAY_(SALEABLE_UNITS)]) AS old_may_saleableUnit,
+       SUM(new.[MAY_(SALEABLE_UNITS)]) AS new_may_saleableUnit,
+       SUM(old.[MAY_VALUE]) AS old_may_value,
+       SUM(new.[MAY_VALUE]) AS new_may_value,
+       SUM(old.[JUN_(SALEABLE_UNITS)]) AS old_jun_saleableUnit,
+       SUM(new.[JUN_(SALEABLE_UNITS)]) AS new_jun_saleableUnit,
+       SUM(old.[JUNE_VALUE]) AS old_jun_value,
+       SUM(new.[JUNE_VALUE]) AS new_jun_value,
+       SUM(old.[JULY_(SALEABLE_UNITS)]) AS old_july_saleableUnit,
+       SUM(new.[JULY_(SALEABLE_UNITS)]) AS new_july_saleableUnit,
+       SUM(old.[JULY_VALUE]) AS old_july_value,
+       SUM(new.[JULY_VALUE]) AS new_july_value,
+       SUM(old.[AUGUST_(SALEABLE_UNITS)]) AS old_aug_saleableUnit,
+       SUM(new.[AUGUST_(SALEABLE_UNITS)]) AS new_aug_saleableUnit,
+       SUM(old.[AUG_VALUE]) AS old_aug_value,
+       SUM(new.[AUG_VALUE]) AS new_aug_value,
+       SUM(old.[SEP_(SALEABLE_UNITS)]) AS old_sep_saleableUnit,
+       SUM(new.[SEP_(SALEABLE_UNITS)]) AS new_sep_saleableUnit,
+       SUM(old.[SEPT_VALUE]) AS old_sep_value,
+       SUM(new.[SEPT_VALUE]) AS new_sep_value,
+       SUM(old.[OCT_PCS]) AS old_oct_saleableUnit,
+       SUM(new.[OCT_PCS]) AS new_oct_saleableUnit,
+       SUM(old.[OCT_(VALUE)]) AS old_oct_value,
+       SUM(new.[OCT_(VALUE)]) AS new_oct_value,
+       SUM(old.[NOVEMBER_(SALEABLE_UNITS)]) AS old_nov_saleableUnit,
+       SUM(new.[NOVEMBER_(SALEABLE_UNITS)]) AS new_nov_saleableUnit,
+       SUM(old.[NOV_VALUE]) AS old_nov_value,
+       SUM(new.[NOV_VALUE]) AS new_nov_value,
+       SUM(old.[DECEMBER_(SALEABLE_UNITS)]) AS old_dec_saleableUnit,
+       SUM(new.[DECEMBER_(SALEABLE_UNITS)]) AS new_dec_saleableUnit,
+       SUM(old.[DEC_VALUE]) AS old_dec_value,
+       SUM(new.[DEC_VALUE]) AS new_dec_value,
+       SUM(old.[JANUARY_(SALEABLE_UNITS)]) AS old_jan_saleableUnit,
+       SUM(new.[JANUARY_(SALEABLE_UNITS)]) AS new_jan_saleableUnit,
+       SUM(old.[JAN_VALUE]) AS old_jan_value,
+       SUM(new.[JAN_VALUE]) AS new_jan_value,
+       SUM(old.[FEBRUARY_(SALEABLE_UNITS)]) AS old_feb_saleableUnit,
+       SUM(new.[FEBRUARY_(SALEABLE_UNITS)]) AS new_feb_saleableUnit,
+       SUM(old.[FEB_VALUE]) AS old_feb_value,
+       SUM(new.[FEB_VALUE]) AS new_feb_value,
+       SUM(old.[MARCH_(SALEABLE_UNITS)]) AS old_mar_saleableUnit,
+       SUM(new.[MARCH_(SALEABLE_UNITS)]) AS new_mar_saleableUnit,
+       SUM(old.[MAR_VALUE]) AS old_mar_value,
+       SUM(new.[MAR_VALUE]) AS new_mar_value
+     
+   FROM 
+       SALESPLAN_SIMULATION AS old
+   INNER JOIN 
+       NEW_SIMULATION_OUTPUT AS new 
+   ON 
+       old.unique_identification_no = new.unique_identification_no
+   GROUP BY
+       old.plant;
+   `;
+   
+   getChartSimulatedData(query).then((data) => {
+
+    const oldValues = []
+    const newValues = []
+    const oldSaleableUnit = []
+    const newSaleableUnit = []
+
+    data.forEach((item)=>{
+
+      Object.keys(item).forEach((key => {
+        if(key.startsWith("old_") && key.endsWith("_value")){
+          oldValues.push(item[key]); 
+        }
+      }));
+      
+      Object.keys(item).forEach((key => {
+        if(key.startsWith("new_") && key.endsWith("_value")){
+          newValues.push(item[key]);
+        }
+      }));
+
+      Object.keys(item).forEach((key => {
+        if(key.startsWith("old_") && key.endsWith("_saleableUnit")){
+          oldSaleableUnit.push(item[key]); 
+        }
+      }));
+
+      
+      Object.keys(item).forEach((key => {
+        if(key.startsWith("new_") && key.endsWith("_saleableUnit")){
+          newSaleableUnit.push(item[key]); 
+        }
+      }));
+      console.log("oldValues", oldValues);
+      console.log("newValues",newValues);
+      res.json({"oldValues" : oldValues, "newValues": newValues , "oldSaleableUnit": oldSaleableUnit , "newSaleableUnit": newSaleableUnit});
+    
+    });
+  });
 });
 
 
