@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   query=""
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select TOP(15) ${key} as ${value},`
+      query+=`Select TOP(2) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
@@ -61,7 +61,7 @@ router.post('/save-data', async(req, res) => {
       summaryData += `( '${req.body.textValue}-V-${req.body.numberValue}', '${customerName}', '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}', '${thisYear.region}' ,  ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN})`
       }
     })
-    console.log(query,summaryData);
+    // console.log(query,summaryData);
     setSimulation(query + summaryData).then((data) => {
       
       res.json(data);
@@ -69,7 +69,7 @@ router.post('/save-data', async(req, res) => {
     })
 
   } catch (error) {
-    console.error('Error saving data:', error);
+    // console.error('Error saving data:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -81,16 +81,16 @@ router.post('/save-data', async(req, res) => {
 router.get("/getVersion",(req,res) => {
   var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT GROUP BY [VERSION_NO]`
   
-  console.log(query)
+  // console.log(query)
 
   setSimulation(query).then((data) => {
-    console.log(data);
+    // console.log(data);
     res.json(data.recordset);
   })
 })
 
 router.get("/savedSimulatedData",(req,res)=> {
-  console.log("version name---------- ",req.query);
+  // console.log("version name---------- ",req.query);
   var query = ""
   jsonData.map(({key,value}, index) => {
     if(index===0){
@@ -103,7 +103,7 @@ router.get("/savedSimulatedData",(req,res)=> {
       query+= `${key} as ${value} from SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.version}'`
 
     }
-    console.log("querry---->",query);
+    // console.log("querry---->",query);
 
   })
 
@@ -119,13 +119,11 @@ router.get("/savedSimulatedData",(req,res)=> {
 router.get("/checkDuplicateVersion", (req, res) => {
   
   // Access query parameters using req.query
-
   var query = `SELECT COUNT(*) As total_count FROM SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.textValue}-V-${req.query.numberValue}'`;
-  console.log(query);
   
   setSimulation(query).then((data) => {
     
-    console.log("data------", data.recordsets[0][0]["total_count"]);
+    // console.log("data------", data.recordsets[0][0]["total_count"]);
 
     res.json(data.recordsets[0][0]["total_count"]);
 
@@ -140,7 +138,7 @@ router.get("/chartsData",(req,res) => {
 
   var query = `select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [REGION] from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [REGION]` 
 
-  console.log("query to get pie-chart data :- ",query);
+  // console.log("query to get pie-chart data :- ",query);
   
   getChartSimulatedData(query).then((data) => {
 
@@ -156,7 +154,7 @@ router.get("/pieChartCustomer",(req,res)=>{
   var query = `
 select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [END_CUSTOMER_NAME] as 'endCustomerName' from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [END_CUSTOMER_NAME]`
 
-  console.log("get pie chart data for customers ---------",query)
+  // console.log("get pie chart data for customers ---------",query)
   
   getChartSimulatedData(query).then((data) => {
 

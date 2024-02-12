@@ -4,7 +4,6 @@ const {host } = require('./Config'); // Update the path accordingly
 const app = express();
 const cors = require('cors');
 
-
 const versionRoutes = require('./Version/Version');
 const summaryRoutes = require('./Summary/Summary');
 const simulationRoutes = require('./Simulation/Simulation');
