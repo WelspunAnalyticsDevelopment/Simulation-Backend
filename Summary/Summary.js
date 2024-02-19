@@ -7,30 +7,61 @@ const { json } = require('body-parser');
 
 
 
+//select statement to get the initial data from SALESPLAN_SIMULATION
 router.get('/', (req, res) => {
   query=""
+  console.log("selected product",req.query.selectedProduct);
+  console.log("selected Level",req.query.selectedLevel);
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select TOP(2) ${key} as ${value},`
+      query+=`Select ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
     }
     else{
-     query+= `${key} as ${value} from SALESPLAN_SIMULATION WHERE [UNIQUE_IDENTIFICATION_NO] is not NULL`
+     query+= `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND TEAM_LEADER like '%AVINASH MALANI%'`
     }
-  })
-
+  })  
+  console.log(query);
   getSimulation(query).then((data) => {
 
     res.json(data);
 
   })
+  // res.json(null);
 });
 
 
-//querry to save simulated data in the newly created table.
+router.get('/getPublishedData', (req,res) => {
+  console.log(req.query);
+  let query = '';
 
+  jsonData.map(({key,value}, index) => {
+    if(index===0){
+      query+=`Select ${key} as ${value},`
+    }
+    else if(index>0 && index !== jsonData.length-1){
+      query+= `${key} as ${value},`
+    }
+    else{
+     query+= `${key} as ${value} from SALESPLAN_PUBLISH WHERE [UNIQUE_IDENTIFICATION_NO] is not NULL AND [PRODUCT_CAT] = '${req.query.productName}' AND [TEAM_LEADER] = 'AVINASH MALANI'`
+    }
+  })  
+  console.log(query);
+  setSimulation(query).then((data) => {
+
+    res.json(data);
+
+  })
+})
+
+
+
+
+
+
+//querry to Publish simulated data in the newly created table.
 
 router.post('/save-data', async(req, res) => {
   try {
@@ -74,13 +105,79 @@ router.post('/save-data', async(req, res) => {
   }
 });
 
+//check duplicate publish versions
+
+router.get('/already-published',async(req,res) => {
+  
+  console.log("already publish api data",req.query.versionName);
+  var query = `SELECT COUNT(*) As total_count FROM SALESPLAN_PUBLISH WHERE [VERSION_NO] = '${req.query.versionName}'`;
+
+  setSimulation(query).then((data) => {
+    
+    console.log("data------", data.recordsets[0][0]["total_count"]);
+
+    res.json(data.recordsets[0][0]["total_count"]);
+
+  })
+})
+
+//publish data api
+
+router.post('/publish-version',async(req,res) => {
+  try {
+    var query = '';
+    // console.log(req);
+    
+    jsonData.map(({key,value}, index) => {
+      if(index===0){
+        query+=`Insert INTO SALESPLAN_PUBLISH ( [VERSION_NO] , ${key},`
+      }
+      else if(index > 0 && index !== jsonData.length-1){
+        query+= `${key},`
+      }
+      else{
+      query+= ` ${key}) Values`
+      }
+    })
+
+    var summaryData = ""
+     req.body.dataTableAnnual.map(({customerName, thisYear},index)=>{
+      if(index == 0 ){
+       
+        summaryData += `( '${req.body.publishVersion}', '${customerName}' , '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}' , '${thisYear.region}' , ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN}),`
+      }
+      else if(index > 0 && index !== req.body.dataTableAnnual.length-1){
+        summaryData+= `( '${req.body.publishVersion}', '${customerName}' , '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}' , '${thisYear.region}' , ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN}),`
+      }
+      else{
+      summaryData += `( '${req.body.publishVersion}', '${customerName}', '${thisYear.program}' , '${thisYear.productCat}' , '${thisYear.plant}' , '${thisYear.uniqueIdentificationNo}' , '${thisYear.productSubCat}' , '${thisYear.teamLeader}', '${thisYear.region}' ,  ${thisYear.aprilSaleableUnit},${thisYear.aprilRate},${thisYear.aprilValue},${thisYear.aprilUSDN},${thisYear.maySaleableUnit},${thisYear.mayRate},${thisYear.mayValue},${thisYear.mayUSDN},${thisYear.juneSaleableUnit},${thisYear.juneRate},${thisYear.juneValue},${thisYear.juneUSDN},${thisYear.julySaleableUnit},${thisYear.julyRate},${thisYear.julyValue},${thisYear.julyUSDN},${thisYear.augustSaleableUnit},${thisYear.augustRate},${thisYear.augustValue},${thisYear.augustUSDN},${thisYear.septemberSaleableUnit},${thisYear.septemberRate},${thisYear.septemberValue},${thisYear.septemberUSDN},${thisYear.octoberSaleableUnit},${thisYear.octoberRate},${thisYear.octoberValue},${thisYear.octoberUSDN},${thisYear.novemberSaleableUnit},${thisYear.novemberRate},${thisYear.novemberValue},${thisYear.novemberUSDN},${thisYear.decemberSaleableUnit},${thisYear.decemberRate},${thisYear.decemberValue},${thisYear.decemberUSDN},${thisYear.januarySaleableUnit},${thisYear.januaryRate},${thisYear.januaryValue},${thisYear.januaryUSDN},${thisYear.februarySaleableUnit},${thisYear.februaryRate},${thisYear.februaryValue},${thisYear.februaryUSDN},${thisYear.marchSaleableUnit},${thisYear.marchRate},${thisYear.marchValue}, ${thisYear.marchUSDN})`
+      }
+    })
+    // console.log("Insert Into Publish table",query,summaryData);
+    setSimulation(query + summaryData).then((data) => {
+      
+      res.json(data);
+  
+    })
+  }
+  catch(error){
+    console.log('error',error);
+  }
+
+})
+
+
+
+
+
+
 
 
 // Get Saved simulated data 
 
 router.get("/getVersion",(req,res) => {
   var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT GROUP BY [VERSION_NO]`
-  
+
   // console.log(query)
 
   setSimulation(query).then((data) => {
@@ -119,6 +216,8 @@ router.get("/savedSimulatedData",(req,res)=> {
 router.get("/checkDuplicateVersion", (req, res) => {
   
   // Access query parameters using req.query
+  // console.log("UserName ",req.query.textValue)
+  // console.log("Number value", req.query.numberValue);
   var query = `SELECT COUNT(*) As total_count FROM SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.textValue}-V-${req.query.numberValue}'`;
   
   setSimulation(query).then((data) => {
@@ -129,6 +228,11 @@ router.get("/checkDuplicateVersion", (req, res) => {
 
   })
 });
+
+
+
+
+
 
 
 
@@ -196,8 +300,8 @@ router.get("/barCharData",(req,res) => {
        SUM(new.[SEP_(SALEABLE_UNITS)]) AS new_sep_saleableUnit,
        SUM(old.[SEPT_VALUE]) AS old_sep_value,
        SUM(new.[SEPT_VALUE]) AS new_sep_value,
-       SUM(old.[OCT_PCS]) AS old_oct_saleableUnit,
-       SUM(new.[OCT_PCS]) AS new_oct_saleableUnit,
+       SUM(old.[OCT_(SALEABLE_UNIT)]) AS old_oct_saleableUnit,
+       SUM(new.[OCT_(SALEABLE_UNIT)]) AS new_oct_saleableUnit,
        SUM(old.[OCT_(VALUE)]) AS old_oct_value,
        SUM(new.[OCT_(VALUE)]) AS new_oct_value,
        SUM(old.[NOVEMBER_(SALEABLE_UNITS)]) AS old_nov_saleableUnit,

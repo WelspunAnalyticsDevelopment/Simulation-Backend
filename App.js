@@ -21,7 +21,7 @@ app.listen(host || 3031, () => {
 });
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit : '30mb'}));
 
 app.use('/version',versionRoutes);
 
