@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   console.log("selected Level",req.query.selectedLevel);
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select ${key} as ${value},`
+      query+=`Select TOP(10) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
@@ -109,9 +109,8 @@ router.post('/save-data', async(req, res) => {
 
 router.get('/already-published',async(req,res) => {
   
-  console.log("already publish api data",req.query.versionName);
-  var query = `SELECT COUNT(*) As total_count FROM SALESPLAN_PUBLISH WHERE [VERSION_NO] = '${req.query.versionName}'`;
-
+  var query = `SELECT COUNT(*) As total_count FROM SALESPLAN_PUBLISH WHERE [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%'`;
+  console.log("check duplicate publish",query)
   setSimulation(query).then((data) => {
     
     console.log("data------", data.recordsets[0][0]["total_count"]);
@@ -175,9 +174,12 @@ router.post('/publish-version',async(req,res) => {
 
 // Get Saved simulated data 
 
-router.get("/getVersion",(req,res) => {
-  var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT GROUP BY [VERSION_NO]`
+//get version list
 
+router.get("/getVersion",(req,res) => {
+  console.log(req.query);
+  var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT where [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%' GROUP BY [VERSION_NO]`
+  console.log(query);
   // console.log(query)
 
   setSimulation(query).then((data) => {
@@ -370,9 +372,10 @@ router.get("/barCharData",(req,res) => {
       }));
       console.log("oldValues", oldValues);
       console.log("newValues",newValues);
-      res.json({"oldValues" : oldValues, "newValues": newValues , "oldSaleableUnit": oldSaleableUnit , "newSaleableUnit": newSaleableUnit});
-    
+     
     });
+    res.json({"oldValues" : oldValues, "newValues": newValues , "oldSaleableUnit": oldSaleableUnit , "newSaleableUnit": newSaleableUnit});
+    
   });
 });
 
