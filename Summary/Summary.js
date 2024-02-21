@@ -3,6 +3,7 @@ const {getSimulation,setSimulation, getChartSimulatedData}  = require('../Servic
 const router = express.Router();
 
 const jsonData  = require('../AppConfig/anjar.json');
+const getDataDb = require('../AppConfig/getDataDB.json');
 const { json } = require('body-parser');
 
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
   console.log("selected Level",req.query.selectedLevel);
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select TOP(10) ${key} as ${value},`
+      query+=`Select TOP(20) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
@@ -37,11 +38,11 @@ router.get('/getPublishedData', (req,res) => {
   console.log(req.query);
   let query = '';
 
-  jsonData.map(({key,value}, index) => {
+  getDataDb.map(({key,value}, index) => {
     if(index===0){
       query+=`Select ${key} as ${value},`
     }
-    else if(index>0 && index !== jsonData.length-1){
+    else if(index>0 && index !== getDataDb.length-1){
       query+= `${key} as ${value},`
     }
     else{
@@ -178,7 +179,14 @@ router.post('/publish-version',async(req,res) => {
 
 router.get("/getVersion",(req,res) => {
   console.log(req.query);
-  var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT where [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%' GROUP BY [VERSION_NO]`
+  // var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT where [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%' GROUP BY [VERSION_NO]`
+  var query = `Select Distinct td.VERSION_NO,
+	(CASE
+		WHEN sp.VERSION_NO IS NULL THEN 0
+		Else 1
+	END) as isPublished
+from SALESPLAN_PUBLISH sp right join SIMULATION_OUTPUT td on  sp.VERSION_NO = td.VERSION_NO
+where td.VERSION_NO like '%${req.query.userName}%' AND td.PRODUCT_CAT like '%${req.query.product}%' GROUP BY td.VERSION_NO, sp.VERSION_NO`
   console.log(query);
   // console.log(query)
 

@@ -13,6 +13,6 @@ const config = {
   },
 };
 
-console.log(userName, password, server, database )
+console.log(userName, password, server, database)
 
 module.exports = config ;
