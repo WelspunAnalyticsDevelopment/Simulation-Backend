@@ -39,7 +39,7 @@
     },
     {
         "key": "[APRIL_KGS]",
-        "value": "aprilKGS"
+        "value": "aprilQuantity"
     },
     {
         "key": "[APR_RATE_AS_PER_CURRENCY]",
@@ -60,7 +60,7 @@
     },
     {
         "key": "[MAY_KGS]",
-        "value": "mayKGS"
+        "value": "mayQuantity"
     },
     {
         "key": "[MAY_RATE_AS_PER_CURRENCY]",    
@@ -81,7 +81,7 @@
     },
     {
         "key": "[JUNE_KGS]",
-        "value": "juneKGS"
+        "value": "juneQuantity"
     },
     {
         "key": "[JUN_RATE_AS_PER_CURRENCY]",
@@ -102,7 +102,7 @@
     },
     {
         "key": "[JULY_KGS]",
-        "value": "julyKGS"
+        "value": "julyQuantity"
     },
     {
         "key": "[JUL_RATE_AS_PER_CURRENCY]",
@@ -123,7 +123,7 @@
     },
     {
         "key": "[AUG_KGS]",
-        "value": "augustKGS"
+        "value": "augustQuantity"
     },
     {
         "key": "[AUG_RATE_AS_PER_CURRENCY]",
@@ -144,7 +144,7 @@
     },
     {
         "key": "[SEP_KGS]",
-        "value": "septemberKGS"
+        "value": "septemberQuantity"
     },
     {
         "key": "[SEP_RATE_AS_PER_CURRENCY]",
@@ -165,7 +165,7 @@
     },
     {
         "key": "[OCT_KGS]",
-        "value": "octoberKGS"
+        "value": "octoberQuantity"
     },
     {
         "key": "[OCT_RATE_AS_PER_CURRENCY]",
@@ -186,7 +186,7 @@
     },
     {
         "key": "[NOV_KGS]",
-        "value": "novemberKGS"
+        "value": "novemberQuantity"
     },
     {
         "key": "[NOV_RATE_AS_PER_CURRENCY]",
@@ -207,7 +207,7 @@
     },
     {
         "key": "[DEC_KGS]",
-        "value": "decemberKGS"
+        "value": "decemberQuantity"
     },
     {
         "key": "[DEC_RATE_AS_PER_CURRENCY]",
@@ -228,7 +228,7 @@
     },
     {
         "key": "[JAN_KGS]",
-        "value": "januaryKGS"
+        "value": "januaryQuantity"
     },
     {
         "key": "[JAN_RATE_AS_PER_CURRENCY]",
@@ -249,7 +249,7 @@
     },
     {
         "key": "[FEB_KGS]",
-        "value": "februaryKGS"
+        "value": "februaryQuantity"
     },
     {
         "key": "[FEB_RATE_AS_PER_CURRENCY]",
@@ -270,7 +270,7 @@
     },
     {
         "key": "[MAR_KGS]",
-        "value": "marchKGS"
+        "value": "marchQuantity"
     },
     {
         "key": "[MAR_RATE_AS_PER_CURRENCY]",

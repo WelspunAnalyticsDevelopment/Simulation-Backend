@@ -181,12 +181,12 @@ router.get("/getVersion",(req,res) => {
   console.log(req.query);
   // var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT where [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%' GROUP BY [VERSION_NO]`
   var query = `Select Distinct td.VERSION_NO,
-	(CASE
-		WHEN sp.VERSION_NO IS NULL THEN 0
-		Else 1
-	END) as isPublished
-from SALESPLAN_PUBLISH sp right join SIMULATION_OUTPUT td on  sp.VERSION_NO = td.VERSION_NO
-where td.VERSION_NO like '%${req.query.userName}%' AND td.PRODUCT_CAT like '%${req.query.product}%' GROUP BY td.VERSION_NO, sp.VERSION_NO`
+                  (CASE
+                    WHEN sp.VERSION_NO IS NULL THEN 0
+                    Else 1
+                  END) as isPublished
+                from SALESPLAN_PUBLISH sp right join SIMULATION_OUTPUT td on  sp.VERSION_NO = td.VERSION_NO
+                where td.VERSION_NO like '%${req.query.userName}%' AND td.PRODUCT_CAT like '%${req.query.product}%' GROUP BY td.VERSION_NO, sp.VERSION_NO`
   console.log(query);
   // console.log(query)
 
