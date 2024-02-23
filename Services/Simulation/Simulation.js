@@ -9,11 +9,21 @@ async function getSimulation(sqlStatment) {
         // console.log(products);
         data = result.recordsets[0].map((data) => {
           const customerName = data.customerName
+          const plant = data.plant
+          const region = data.region
+          const program = data.program
+        
           delete data.customerName
+          delete data.plant
+          delete data.region
+          delete data.program
           return({
             customerName: customerName,
+            plant: plant,
+            region: region,
+            program: program,
             lastYear: data,
-            thisYear:data
+            thisYear: data
           })
         })
         // console.log(data, "data*******************")

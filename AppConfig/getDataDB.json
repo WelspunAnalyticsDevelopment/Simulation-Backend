@@ -38,6 +38,10 @@
         "value": "aprilSaleableUnit"
     },
     {
+        "key": "[APRIL_KGS]",
+        "value": "aprilQuantity"
+    },
+    {
         "key": "[APR_RATE_AS_PER_CURRENCY]",
         "value": "aprilRate"
     },
@@ -53,6 +57,10 @@
     {
         "key": "[MAY_(SALEABLE_UNITS)]",
         "value": "maySaleableUnit"
+    },
+    {
+        "key": "[MAY_KGS]",
+        "value": "mayQuantity"
     },
     {
         "key": "[MAY_RATE_AS_PER_CURRENCY]",    
@@ -72,6 +80,10 @@
         "value": "juneSaleableUnit"
     },
     {
+        "key": "[JUNE_KGS]",
+        "value": "juneQuantity"
+    },
+    {
         "key": "[JUN_RATE_AS_PER_CURRENCY]",
         "value": "juneRate"
     },
@@ -87,6 +99,10 @@
     {
         "key": "[JULY_(SALEABLE_UNITS)]",
         "value": "julySaleableUnit"
+    },
+    {
+        "key": "[JULY_KGS]",
+        "value": "julyQuantity"
     },
     {
         "key": "[JUL_RATE_AS_PER_CURRENCY]",
@@ -106,6 +122,10 @@
         "value": "augustSaleableUnit"
     },
     {
+        "key": "[AUG_KGS]",
+        "value": "augustQuantity"
+    },
+    {
         "key": "[AUG_RATE_AS_PER_CURRENCY]",
         "value": "augustRate"
     },
@@ -121,6 +141,10 @@
     {
         "key": "[SEP_(SALEABLE_UNITS)]",
         "value": "septemberSaleableUnit"
+    },
+    {
+        "key": "[SEP_KGS]",
+        "value": "septemberQuantity"
     },
     {
         "key": "[SEP_RATE_AS_PER_CURRENCY]",
@@ -140,6 +164,10 @@
         "value": "octoberSaleableUnit"
     },
     {
+        "key": "[OCT_KGS]",
+        "value": "octoberQuantity"
+    },
+    {
         "key": "[OCT_RATE_AS_PER_CURRENCY]",
         "value": "octoberRate"
     },
@@ -155,6 +183,10 @@
     {
         "key": "[NOVEMBER_(SALEABLE_UNITS)]",
         "value": "novemberSaleableUnit"
+    },
+    {
+        "key": "[NOV_KGS]",
+        "value": "novemberQuantity"
     },
     {
         "key": "[NOV_RATE_AS_PER_CURRENCY]",
@@ -174,6 +206,10 @@
         "value": "decemberSaleableUnit"
     },
     {
+        "key": "[DEC_KGS]",
+        "value": "decemberQuantity"
+    },
+    {
         "key": "[DEC_RATE_AS_PER_CURRENCY]",
         "value": "decemberRate"
     },
@@ -189,6 +225,10 @@
     {
         "key": "[JANUARY_(SALEABLE_UNITS)]",
         "value": "januarySaleableUnit"
+    },
+    {
+        "key": "[JAN_KGS]",
+        "value": "januaryQuantity"
     },
     {
         "key": "[JAN_RATE_AS_PER_CURRENCY]",
@@ -208,6 +248,10 @@
         "value": "februarySaleableUnit"
     },
     {
+        "key": "[FEB_KGS]",
+        "value": "februaryQuantity"
+    },
+    {
         "key": "[FEB_RATE_AS_PER_CURRENCY]",
         "value": "februaryRate"
     },
@@ -223,6 +267,10 @@
     {
         "key": "[MARCH_(SALEABLE_UNITS)]",
         "value": "marchSaleableUnit"
+    },
+    {
+        "key": "[MAR_KGS]",
+        "value": "marchQuantity"
     },
     {
         "key": "[MAR_RATE_AS_PER_CURRENCY]",
