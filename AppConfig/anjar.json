@@ -42,6 +42,14 @@
         "value": "aprilQuantity"
     },
     {
+        "key": "[APRIL_(SQ_MTR)]",
+        "value": "aprilSqMt" 
+    },
+    {
+        "key": "[APR_MTR]",
+        "value": "aprilMt" 
+    },
+    {
         "key": "[APR_RATE_AS_PER_CURRENCY]",
         "value": "aprilRate"
     },
@@ -57,6 +65,14 @@
     {
         "key": "[MAY_(SALEABLE_UNITS)]",
         "value": "maySaleableUnit"
+    },
+    {
+        "key": "[MAY_(SQ_MTS)]",
+        "value": "maySqMt" 
+    },
+    {
+        "key": "[MAY_MTR]",
+        "value": "mayMt" 
     },
     {
         "key": "[MAY_KGS]",
@@ -80,6 +96,14 @@
         "value": "juneSaleableUnit"
     },
     {
+        "key": "[JUNE_(SQ_MTS)]",
+        "value": "juneSqMt" 
+    },
+    {
+        "key": "[JUNE_MTR]",
+        "value": "juneMt" 
+    },
+    {
         "key": "[JUNE_KGS]",
         "value": "juneQuantity"
     },
@@ -99,6 +123,14 @@
     {
         "key": "[JULY_(SALEABLE_UNITS)]",
         "value": "julySaleableUnit"
+    },
+    {
+        "key": "[JUL_MTR]",
+        "value": "julyMt" 
+    },
+    {
+        "key": "[JULY_(SQ_MTS)]",
+        "value": "julySqMt"
     },
     {
         "key": "[JULY_KGS]",
@@ -122,6 +154,14 @@
         "value": "augustSaleableUnit"
     },
     {
+        "key": "[AUGUST_(SQ_MTS)]",
+        "value": "augustSqMt"
+    },
+    {
+        "key": "[AUG_MTR]",
+        "value": "augMt" 
+    },
+    {
         "key": "[AUG_KGS]",
         "value": "augustQuantity"
     },
@@ -141,6 +181,14 @@
     {
         "key": "[SEP_(SALEABLE_UNITS)]",
         "value": "septemberSaleableUnit"
+    },
+    {
+        "key": "[SEP_SQ_MTS_]",
+        "value": "sepSqMt"
+    },
+    {
+        "key": "[SEP_MTR]",
+        "value": "septemberMt" 
     },
     {
         "key": "[SEP_KGS]",
@@ -164,6 +212,14 @@
         "value": "octoberSaleableUnit"
     },
     {
+        "key": "OCT_SQ_MTS",
+        "value": "octSqMt"
+    },
+    {
+        "key": "[OCT_MTR]",
+        "value": "octMt" 
+    },
+    {
         "key": "[OCT_KGS]",
         "value": "octoberQuantity"
     },
@@ -183,6 +239,14 @@
     {
         "key": "[NOVEMBER_(SALEABLE_UNITS)]",
         "value": "novemberSaleableUnit"
+    },
+    {
+        "key": "[NOVEMBER_(SQ_MTS)]",
+        "value": "novSqMt"
+    },
+    {
+        "key": "[NOV_MTR]",
+        "value": "novMt" 
     },
     {
         "key": "[NOV_KGS]",
@@ -206,6 +270,14 @@
         "value": "decemberSaleableUnit"
     },
     {
+        "key": "[DECEMBER_(SQ_MTS)]",
+        "value": "decSqMt"
+    },
+    {
+        "key": "[DEC_MTR]",
+        "value": "decMt" 
+    },
+    {
         "key": "[DEC_KGS]",
         "value": "decemberQuantity"
     },
@@ -225,6 +297,14 @@
     {
         "key": "[JANUARY_(SALEABLE_UNITS)]",
         "value": "januarySaleableUnit"
+    },
+    {
+        "key": "[JANUARY_(SQ_MTS)]",
+        "value": "janSqMt"
+    },
+    {
+        "key": "[JAN_MTR]",
+        "value": "janMt" 
     },
     {
         "key": "[JAN_KGS]",
@@ -248,6 +328,14 @@
         "value": "februarySaleableUnit"
     },
     {
+        "key": "[FEBRUARY(SQ_MTS)]",
+        "value": "febSqMt"
+    },
+    {
+        "key": "[FEB_MTR]",
+        "value": "febMt" 
+    },
+    {
         "key": "[FEB_KGS]",
         "value": "februaryQuantity"
     },
@@ -267,6 +355,14 @@
     {
         "key": "[MARCH_(SALEABLE_UNITS)]",
         "value": "marchSaleableUnit"
+    },
+    {
+        "key": "[MARCH(SQ_MTS)]",
+        "value": "marchSqMt"
+    },
+    {
+        "key": "[MAR_MTR]",
+        "value": "marMt" 
     },
     {
         "key": "[MAR_KGS]",
