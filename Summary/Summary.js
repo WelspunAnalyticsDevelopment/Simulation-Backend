@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
   console.log("selected product",req.query.selectedProduct);
   console.log("selected Level",req.query.selectedLevel);
     
+  
   //if selected level is Customer Level    
   jsonData.map(({key,value}, index) => {
     if(index===0){
@@ -1627,7 +1628,6 @@ router.get('/getPublishedData', (req,res) => {
   
  
 })
-
 
 
 
