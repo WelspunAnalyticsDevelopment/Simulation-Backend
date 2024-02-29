@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
       query+= `${key} as ${value},`
     }
     else{
-    query+= `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%ANITA THAKUR%' OR TEAM_LEADER like '%ANITA THAKUR%')`
+    query+= `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%AVINASH MALANI%' OR TEAM_LEADER like '%AVINASH MALANI%')`
     }
   })  
   console.log(query);
@@ -217,7 +217,7 @@ router.get('/getPublishedData', (req,res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Terry Towel' AND (sp.[VERSION_NO] like '%ANITA_THAKUR%' OR sp.[TEAM_LEADER] like '%ANITA THAKUR%')
+                        AND sp.[product_cat] = 'Terry Towel' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
       `;
  
     }
@@ -406,7 +406,7 @@ router.get('/getPublishedData', (req,res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Rugs' AND (sp.[VERSION_NO] like '%ANITA_THAKUR%' OR sp.[TEAM_LEADER] like '%ANITA THAKUR%')
+                        AND sp.[product_cat] = 'Rugs' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH_MALANI%')
       `;
   }
   
@@ -433,9 +433,6 @@ router.get('/getPublishedData', (req,res) => {
 
       sp.[AUG_KGS] AS 'AUG KGS',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
-      ss.[AUGUST_(SQ_MTS)] AS 'AUGUST (SQ MTS)',
-      ss.[AUG_(TOTAL_KGS)] AS 'AUG (TOTAL KGS)',
-      ss.[AUG_(TUFTING_KGS)] AS 'AUG (TUFTING KGS)',
       sp.[AUG_RATE_AS_PER_CURRENCY] AS 'AUG RATE AS PER CURRENCY',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST (SALEABLE UNITS)',
       sp.[AUG_USDN] AS 'AUG USDN',
@@ -443,25 +440,16 @@ router.get('/getPublishedData', (req,res) => {
       ss.[BILLING(WUSA/WUK/DIRECT)] AS 'BILLING(WUSA/WUK/DIRECT)',
       ss.[BRAND_NAME] AS 'BRAND NAME',
       ss.[BRAND_TYPE_:_OWN_/_RETAILER_LICENCE_/_WE] AS 'BRAND TYPE : OWN / RETAILER LICENCE / WE',
-      ss.[BACKING(GSM)] AS 'BACKING(GSM)',
-      ss.[BACKINGTYPE] AS 'BACKINGTYPE',
-      ss.[CATEGORY] AS 'CATEGORY',
       ss.[CHANNEL] AS 'CHANNEL',
-      ss.[CONSTRUCTION] AS 'CONSTRUCTION',
       ss.[COUNTRY] AS 'COUNTRY',
-      ss.[COATING] AS 'COATING',
       sp.[DEC_KGS] AS 'DEC KGS',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
-      ss.[DECEMBER(TOTAL_KGS)] AS 'DECEMBER(TOTAL KGS)',
-      ss.[DECEMBER(TUFTING_KGS)] AS 'DECEMBER(TUFTING KGS)',
       sp.[DEC_RATE_AS_PER_CURRENCY] AS 'DEC RATE AS PER CURRENCY',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (SALEABLE UNITS)',
       sp.[DEC_USDN] AS 'DEC USDN',
       sp.[DEC_VALUE] AS 'DEC VALUE',
       ss.[DYEING/_WASHING] AS 'DYEING/ WASHING',
-      ss.[DYED/_PRINTED_TO_REFER] AS 'DYED/ PRINTED TO REFER',
       ss.[EMB(Y/_N)] AS 'EMB(Y/ N)',
-      ss.[EMBROIDARY] AS 'EMBROIDARY',
       ss.[END_CUSTOMER_CODE] AS 'END CUSTOMER CODE',
       sp.[END_CUSTOMER_NAME] AS 'END CUSTOMER NAME',
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME',
@@ -469,68 +457,42 @@ router.get('/getPublishedData', (req,res) => {
       sp.[FEB_KGS] AS 'FEB KGS',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
       ss.[FEBRUARY(TOTAL_KGS)] AS 'FEBRUARY(TOTAL KGS)',
-      ss.[FEBRUARY(TUFTING_KGS)] AS 'FEBRUARY(TUFTING KGS)',
       sp.[FEB_RATE_AS_PER_CURRENCY] AS 'FEB RATE AS PER CURRENCY',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY (SALEABLE UNITS)',
       sp.[FEB_USDN] AS 'FEB USDN',
       sp.[FEB_VALUE] AS 'FEB VALUE',
       ss.[FIBRE_TYPE] AS 'FIBRE TYPE',
-      ss.[GR._YARN_1] AS 'GR. YARN 1',
       ss.[GROUND_1_PLY] AS 'GROUND 1 PLY',
-      ss.[GROUND_2_PLY] AS 'GROUND 2 PLY',
       ss.[GROUND_COUNT] AS 'GROUND COUNT',
-      ss.[GROUND_COUNT_2] AS 'GROUND COUNT 2',
       ss.[GROUND_TYPE_1] AS 'GROUND TYPE 1',
-      ss.[GROUND_TYPE_2] AS 'GROUND TYPE 2',
       ss.[GROUND_YARN_2_GMS] AS 'GROUND YARN 2 GMS',
       ss.[GROUND_YARN_GMS] AS 'GROUND YARN GMS',
       ss.[GSM] AS 'GSM',
-      ss.[FINISH_TYPE] AS 'FINISH TYPE',
-      ss.[FINISH_WIDTH] AS 'FINISH WIDTH',
-      ss.[FINISH_WIDTH_FABRIC_2] AS 'FINISH WIDTH FABRIC 2',
-      ss.[FINISH_WIDTH_FLANNEL] AS 'FINISH WIDTH FLANNEL',
-      ss.[FINISH_GSM] AS 'FINISH GSM',
-      ss.[GLM] AS 'GLM',
-      ss.[GREIGE_WIDTH_FLANNEL] AS 'GREIGE WIDTH FLANNEL',
-      ss.[GREIGE_WIDTH_GABRIC_2] AS 'GREIGE WIDTH GABRIC 2',
-      ss.[GRELGE_WLDTH] AS 'GRELGE WLDTH',
       ss.[INNOVATION_TYPE] AS 'INNOVATION TYPE',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
       sp.[JAN_KGS] AS 'JAN KGS',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
-      ss.[JANUARY(TOTAL_KGS)] AS 'JANUARY(TOTAL KGS)',
-      ss.[JANUARY(TUFTING_KGS)] AS 'JANUARY(TUFTING KGS)',
       sp.[JAN_RATE_AS_PER_CURRENCY] AS 'JAN RATE AS PER CURRENCY',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
       sp.[JULY_KGS] AS 'JULY KGS',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
-      ss.[JULY_(TOTAL_KGS)] AS 'JULY (TOTAL KGS)',
-      ss.[JULY_(TUFTING_KGS)] AS 'JULY (TUFTING KGS)',
       sp.[JUL_RATE_AS_PER_CURRENCY] AS 'JUL RATE AS PER CURRENCY',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
       sp.[JUNE_KGS] AS 'JUNE KGS',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
-      ss.[JUNE_(TOTAL_KGS)] AS 'JUNE (TOTAL KGS)',
-      ss.[JUNE_(TUFTING_KGS)] AS 'JUNE (TUFTING KGS)',
       sp.[JUN_RATE_AS_PER_CURRENCY] AS 'JUN RATE AS PER CURRENCY',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUN (SALEABLE UNITS)',
       sp.[JUNE_USDN] AS 'JUNE USDN',
       sp.[JUNE_VALUE] AS 'JUNE VALUE',
-      ss.[KNITTED_FINISH_WIDTH] AS 'KNITTED FINISH WIDTH',
-      ss.[KNITTED_MTRS] AS 'KNITTED MTRS',
       ss.[LIKE_TO_LIKE/NEW] AS 'LIKE TO LIKE/NEW',
       ss.[LOGO] AS 'LOGO',
       ss.[LOOM] AS 'LOOM',
-      ss.[LOOM_SIZE] AS 'LOOM SIZE',
-      ss.[LYCRA_FLNSH_WLDTH] AS 'LYCRA FLNSH WLDTH',
-      ss.[LATEX(GSM)] AS 'LATEX(GSM)',
       sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH(PCS)',
-      ss.[MARCH(TOTAL_KGS)] AS 'MARCH(TOTAL KGS)',
-      ss.[MARCH(TUFTING_KGS)] AS 'MARCH(TUFTING KGS)',
+      sp.[MAR_KGS] AS 'MAR KGS',
       sp.[MAR_RATE_AS_PER_CURRENCY] AS 'MAR RATE AS PER CURRENCY',
       sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH (SALEABLE UNITS)',
       sp.[MAR_USDN] AS 'MAR USDN',
@@ -539,41 +501,16 @@ router.get('/getPublishedData', (req,res) => {
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
       sp.[MAY_KGS] AS 'MAY KGS',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
-      ss.[MAY_(TOTAL_KGS)] AS 'MAY (TOTAL KGS)',
-      ss.[MAY_(TUFTING_KGS)] AS 'MAY (TUFTING KGS)',
       sp.[MAY_RATE_AS_PER_CURRENCY] AS 'MAY RATE AS PER CURRENCY',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY (SALEABLE UNITS)',
       sp.[MAY_USDN] AS 'MAY USDN',
       sp.[MAY_VALUE] AS 'MAY VALUE',
       ss.[MERCHANT] AS 'MERCHANT',
-      ss.[MARKER_EFFICIENCY_ITEM_KNITTED] AS 'MARKER EFFICIENCY ITEM KNITTED',
-      ss.[MARKER_EFFICIENCY_ITEM_NON_WOVEN] AS 'MARKER EFFICIENCY ITEM NON WOVEN',
-      ss.[MARKER_EFFICIENCY_ITEM_NON_WOVEN_LAMINAT] AS 'MARKER EFFICIENCY ITEM NON WOVEN LAMINAT',
-      ss.[MARKER_EFFLCLENCY__PROGRAM] AS 'MARKER EFFLCLENCY PROGRAM',
-      ss.[MARKER_EFFLCLENCY_LTEM] AS 'MARKER EFFLCLENCY LTEM',
-      ss.[MARKER_EFFLCLENCY_LTEM_FABRIC_2] AS 'MARKER EFFLCLENCY LTEM FABRIC 2',
-      ss.[MM/TT/KNIT] AS 'MM/TT/KNIT',
-      ss.[MULTIPLY] AS 'MULTIPLY',
       ss.[MERCHANT_ID] AS 'MERCHANT ID',
-      ss.[MTR._CONSUMP_FABRIC_-1] AS 'MTR. CONSUMP FABRIC -1',
-      ss.[MTR._CONSUMP_FABRIC_-2] AS 'MTR. CONSUMP FABRIC -2',
-      ss.[MTR._CONSUMP_FLANNEL] AS 'MTR. CONSUMP FLANNEL',
-      ss.[MTR._CONSUMP_LYCRA] AS 'MTR. CONSUMP LYCRA',
-      ss.[MTR._CONSUMP_NON_WOVEN] AS 'MTR. CONSUMP NON WOVEN',
-      ss.[NON_WOVEN_FINISH_WIDTH] AS 'NON WOVEN FINISH WIDTH',
-      ss.[NON_WOVEN_MTRS] AS 'NON WOVEN MTRS',
-      ss.[MTR._CONSUMP_KNITTED] AS 'MTR. CONSUMP KNITTED',
-      ss.[NON_WOVEN_LAMINATED__FINISH_WIDTH] AS 'NON WOVEN LAMINATED FINISH WIDTH',
-      ss.[MTR._CONSUMP_NON_WOVEN_LAMINATED] AS 'MTR. CONSUMP NON WOVEN LAMINATED',
-      ss.[MTR._CONSUMP_SATLN] AS 'MTR. CONSUMP SATLN',
-      ss.[NO._OF_SKU] AS 'NO. OF SKU',
-      ss.[NON_WASH] AS 'NON WASH',
       ss.[NEW_PROGRAM] AS 'NEW PROGRAM',
       ss.[NO_OF_PCS_IN_SET] AS 'NO OF PCS IN SET',
       sp.[NOV_KGS] AS 'NOV KGS',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
-      ss.[NOVEMBER_(TUFTING_KGS)] AS 'NOVEMBER (TUFTING KGS)',
-      ss.[NOVEMBER(TOTAL_KGS)] AS 'NOVEMBER(TOTAL KGS)',
       sp.[NOV_RATE_AS_PER_CURRENCY] AS 'NOV RATE AS PER CURRENCY',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER (SALEABLE UNITS)',
       sp.[NOV_USDN] AS 'NOV USDN',
@@ -581,116 +518,49 @@ router.get('/getPublishedData', (req,res) => {
       sp.[OCT_KGS] AS 'OCT KGS',
       sp.[OCT_(SALEABLE_UNIT)] AS 'OCT (SALEABLE UNIT)',
       sp.[OCT_RATE_AS_PER_CURRENCY] AS 'OCT RATE AS PER CURRENCY',
-      ss.[OCTOBER(TOTAL_KGS)] AS 'OCTOBER(TOTAL KGS)',
-      ss.[OCTOBER(TUFTING_KGS)] AS 'OCTOBER(TUFTING KGS)',
       ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
-      ss.[ORDER_TYPE] AS 'ORDER TYPE',
-      ss.[PCS_IN_SET] AS 'PCS IN SET',
       ss.[PILE_1_PLY] AS 'PILE 1 PLY',
-      ss.[PILE_2_PLY] AS 'PILE 2 PLY',
       ss.[PILE_COUNT_1] AS 'PILE COUNT 1',
-      ss.[PILE_COUNT_2] AS 'PILE COUNT 2',
       ss.[PILE_TYPE_1] AS 'PILE TYPE 1',
       ss.[PILE_TYPE_2] AS 'PILE TYPE 2',
       ss.[PILE_YARN_2_GMS] AS 'PILE YARN 2 GMS',
       ss.[PILE_YARN_GMS] AS 'PILE YARN GMS',
-      ss.[PILE_YN._1] AS 'PILE YN. 1',
-      ss.[PIVOT_KEY] AS 'PIVOT KEY',
       ss.[PROGRAM] AS 'PROGRAM',
       ss.[PROGRAM_CODE__↑] AS 'PROGRAM CODE ↑',
       ss.[PROGRAM_CODE_UPDATED] AS 'PROGRAM CODE UPDATED',
-      ss.[PRINTING] AS 'PRINTING',
-      ss.[PROD_INSP_MEMO] AS 'PROD INSP MEMO',
-      ss.[PRODUCT_TYPE_QUALITY] AS 'PRODUCT TYPE QUALITY',
-      ss.[Q1_PCS] AS 'Q1 PCS',
-      ss.[Q1_SATEEN_MTR] AS 'Q1 SATEEN MTR',
-      ss.[Q1_TOTAL_(USDN)] AS 'Q1 TOTAL (USDN)',
-      ss.[Q1_UVR] AS 'Q1 UVR',
-      ss.[Q2_PCS] AS 'Q2 PCS',
-      ss.[Q2_SATEEN_MTR] AS 'Q2 SATEEN MTR',
-      ss.[Q2_TOTAL_(USDN)] AS 'Q2 TOTAL (USDN)',
-      ss.[Q2_UVR] AS 'Q2 UVR',
-      ss.[Q3_PCS] AS 'Q3 PCS',
-      ss.[Q3_SATEEN_MTR] AS 'Q3 SATEEN MTR',
-      ss.[Q3_TOTAL_(USDN)] AS 'Q3 TOTAL (USDN)',
-      ss.[Q3_UVR] AS 'Q3 UVR',
-      ss.[Q4__(USDN)] AS 'Q4 (USDN)',
-      ss.[Q4_PCS] AS 'Q4 PCS',
-      ss.[Q4_SATEEN_MTR] AS 'Q4 SATEEN MTR',
-      ss.[Q4_UVR] AS 'Q4 UVR',
+      
       ss.[REGION] AS 'REGION',
       ss.[REPL_/_PROMO] AS 'REPL / PROMO',
       ss.[REMARKS] AS 'REMARKS',
       ss.[SCM_DATA_NEEDED] AS 'SCM DATA NEEDED',
-      ss.[SCM_DATA_REQ_(YES/NO)] AS 'SCM DATA REQ (YES/NO)',
-      ss.[SECONDARY_BACKING_TYPE] AS 'SECONDARY BACKING TYPE',
-      ss.[SECONDARYBACKING(GSM)] AS 'SECONDARYBACKING(GSM)',
+      
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
       sp.[SEP_KGS] AS 'SEP KGS',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
-      ss.[SEPT_TOTAL_KGS] AS 'SEPT TOTAL KGS',
-      ss.[SEPT_TUFTING_KGS] AS 'SEPT TUFTING KGS',
       sp.[SEP_RATE_AS_PER_CURRENCY] AS 'SEP RATE AS PER CURRENCY',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP (SALEABLE UNITS)',
       sp.[SEPT_USDN] AS 'SEPT USDN',
       sp.[SEPT_VALUE] AS 'SEPT VALUE',
-      ss.[SET_CODE] AS 'SET CODE',
-      ss.[SET_FLOAT] AS 'SET FLOAT',
       ss.[SET/PCS/PP] AS 'SET/PCS/PP',
-      ss.[STITCHING_TYPE] AS 'STITCHING TYPE',
       ss.[SIZE] AS 'SIZE',
-      ss.[SIZE_(L)_CMS] AS 'SIZE (L) CMS',
-      ss.[SIZE_(L)_INCH] AS 'SIZE (L) INCH',
-      ss.[SIZE_(W)_CMS] AS 'SIZE (W) CMS',
-      ss.[SIZE_(W)_INCH] AS 'SIZE (W) INCH',
-      ss.[STORE_FORMAT] AS 'STORE FORMAT',
       ss.[TEAM_LEADER] AS 'TEAM LEADER',
       ss.[TERMS_FOB/CIF] AS 'TERMS FOB/CIF',
           
-      ss.[TYPE_OF_INNOVATION] AS 'TYPE OF INNOVATION',
-      ss.[TOTAL_(GSM)] AS 'TOTAL (GSM)',
-      ss.[TOTAL_AVERAGE_GSM] AS 'TOTAL AVERAGE GSM',
-      ss.[TOTAL_SQR_MTRS] AS 'TOTAL SQR MTRS',
-      
-      ss.[TOTAL(TOTAL_KGS)] AS 'TOTAL(TOTAL KGS)',
-      ss.[TOTAL(TUFTING_KGS)] AS 'TOTAL(TUFTING KGS)',
-      ss.[TPR_GSM] AS 'TPR GSM',
-      ss.[TUFT_(GSM)] AS 'TUFT (GSM)',
-      ss.[TUFTING/KNITTING_MACHINE] AS 'TUFTING/KNITTING MACHINE',
-      ss.[TOTAL_SATEEN_MTR] AS 'TOTAL SATEEN MTR',
-      ss.[TC] AS 'TC',
-      ss.[TOTAL_CONSUMPTION_OF_SATEEN] AS 'TOTAL CONSUMPTION OF SATEEN',
       ss.[USDN/KGS] AS 'USDN/KGS',
       ss.[UNIT_OF_SPEC] AS 'UNIT OF SPEC',
-      ss.[WADDING_CONSUMPTION] AS 'WADDING CONSUMPTION',
-      ss.[WADDING_MTRS] AS 'WADDING MTRS',
       ss.[WEFT_1_PLY] AS 'WEFT 1 PLY',
       ss.[WEFT_2_PLY] AS 'WEFT 2 PLY',
       ss.[WEFT_COUNT_1] AS 'WEFT COUNT 1',
-      ss.[WEFT_COUNT_2] AS 'WEFT COUNT 2',
       ss.[WEFT_TYPE_1] AS 'WEFT TYPE 1',
-      ss.[WEFT_TYPE_2] AS 'WEFT TYPE 2',
       ss.[WEFT_YARN_1_GMS] AS 'WEFT YARN 1 GMS',
       ss.[WEFT_YARN_2_GMS] AS 'WEFT YARN 2 GMS',
       ss.[WELSPUN_UK/US_SALES_REP] AS 'WELSPUN UK/US SALES REP',
       ss.[WELTRACK(_YES/_NO)] AS 'WELTRACK( YES/ NO)',
       ss.[WT/PC] AS 'WT/PC',
       ss.[WUSA/_WUK_WAREHOUSE] AS 'WUSA/ WUK WAREHOUSE',
-      ss.[WADDING_TYPE] AS 'WADDING TYPE',
-      ss.[WARP_COUNT] AS 'WARP COUNT',
-      ss.[WARP_PLY] AS 'WARP PLY',
-      ss.[WARP_WT] AS 'WARP WT',
-      ss.[WARP_YARN_TYPES] AS 'WARP YARN TYPES',
-      ss.[WEAVE] AS 'WEAVE',
-      ss.[WEFT_COUNT] AS 'WEFT COUNT',
-      ss.[WEFT_PLY] AS 'WEFT PLY',
-      ss.[WEFT_WT] AS 'WEFT WT',
-      ss.[WEFT_YARN_TYPES] AS 'WEFT YARN TYPES',
-      ss.[NO_OF_SHADES] AS 'NO OF SHADES',
       ss.[YEARLY_UVR] AS 'YEARLY UVR',
-      ss.[YARN_TYPE] AS 'YARN TYPE',
       ss.[PRODUCT_CAT] AS 'PRODUCT CAT',
       ss.[PRODUCT_SUBCAT] AS 'PRODUCT SUBCAT',
       ss.[PLANT] AS 'PLANT',
@@ -699,7 +569,7 @@ router.get('/getPublishedData', (req,res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Bath' AND (sp.[VERSION_NO] like '%ANITA_THAKUR%' OR sp.[TEAM_LEADER] like '%ANITA THAKUR%')
+                        AND sp.[product_cat] = 'Bath' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
       `;
 
   }
@@ -891,7 +761,7 @@ router.get('/getPublishedData', (req,res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Sheets' AND (sp.[VERSION_NO] like '%ANITA_THAKUR%' OR sp.[TEAM_LEADER] like '%ANITA THAKUR%')
+                        AND sp.[product_cat] = 'Sheets' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
       `;
 
   }
@@ -1082,7 +952,7 @@ router.get('/getPublishedData', (req,res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Top of Bed' AND (sp.[VERSION_NO] like '%ANITA_THAKUR%' OR sp.[TEAM_LEADER] like '%ANITA THAKUR%')
+                        AND sp.[product_cat] = 'Top of Bed' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
       `;
 
   }
