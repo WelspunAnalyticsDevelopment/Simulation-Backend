@@ -15,10 +15,10 @@ router.get('/', (req, res) => {
   console.log("selected Level",req.query.selectedLevel);
     
   
-  //if selected level is Customer Level    
+  //if selected level is Customer Level
   jsonData.map(({key,value}, index) => {
     if(index===0){
-      query+=`Select TOP(10) ${key} as ${value},`
+      query+=`Select TOP(15) ${key} as ${value},`
     }
     else if(index>0 && index !== jsonData.length-1){
       query+= `${key} as ${value},`
