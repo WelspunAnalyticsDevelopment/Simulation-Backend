@@ -6,7 +6,6 @@ async function getSimulation(sqlStatment) {
     try {
         let  pool = await  sql.connect(config);
         let  result = await  pool.request().query(sqlStatment);
-        // console.log(products);
         data = result.recordsets[0].map((data) => {
           const customerName = data.customerName
           const plant = data.plant
@@ -26,7 +25,6 @@ async function getSimulation(sqlStatment) {
             thisYear: data
           })
         })
-        // console.log(data, "data*******************")
         return  data;
     } catch (error) {
       console.error('Error executing SQL query:', error);
@@ -38,8 +36,7 @@ async function getSimulation(sqlStatment) {
     try {
         let  pool = await  sql.connect(config);
         let  result = await  pool.request().query(sqlStatment);
-        // console.log(products);
-        // console.log(data, "data*******************")
+
         return  result.recordsets[0];
     } catch (error) {
       console.error('Error executing SQL query:', error);
@@ -52,8 +49,7 @@ async function getSimulation(sqlStatment) {
        
         let  pool = await  sql.connect(config);
         let  result = await  pool.request().query(sqlStatment);
-        // console.log(products);
-        // console.log(result, "data*******************")
+
         return result;
     } catch (error) {
       console.error('Error executing SQL query:', error);

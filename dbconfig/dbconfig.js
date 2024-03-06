@@ -13,6 +13,6 @@ const config = {
   },
 };
 
-console.log("these are the details of the sql server",userName, password, server, database)
+
 
 module.exports = config ;
