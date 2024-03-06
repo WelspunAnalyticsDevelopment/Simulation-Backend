@@ -9,6 +9,7 @@ const { json } = require('body-parser');
 
 
 router.get('/', (req, res) => {
+  
   query = ""
 
 
@@ -20,11 +21,11 @@ router.get('/', (req, res) => {
       query += `${key} as ${value},`
     }
     else {
-      query += `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%AVINASH MALANI%' OR TEAM_LEADER like '%AVINASH MALANI%')`
+      query += `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%${req.query.name}%' OR TEAM_LEADER like '%${req.query.name}%')`
     }
   })
 
-
+  
   getSimulation(query).then((data) => {
 
     res.json(data);
@@ -36,7 +37,7 @@ router.get('/', (req, res) => {
 
 router.get('/getPublishedData', (req, res) => {
 
-
+  
   let query = '';
 
   if (req.query.productName == 'Terry Towel') {
@@ -55,12 +56,16 @@ router.get('/getPublishedData', (req, res) => {
   
       sp.[APR_RATE_AS_PER_CURRENCY] AS 'APR RATE AS PER CURRENCY',
       sp.[APR_(SALEABLE_UNITS)] AS 'APR (SALEABLE UNITS)',
+      (sp.[APR_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'APRIL PCS',
       sp.[APRIL_USDN] AS 'APRIL USDN',
       sp.[APRIL_VALUE] AS 'APRIL VALUE',
       sp.[AUG_KGS] AS 'AUG KGS',
-      sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
+     
       sp.[AUG_RATE_AS_PER_CURRENCY] AS 'AUG RATE AS PER CURRENCY',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST (SALEABLE UNITS)',
+      
+      (sp.[AUGUST_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'AUGUST PCS',
+      
       sp.[AUG_USDN] AS 'AUG USDN',
       sp.[AUG_VALUE] AS 'AUG VALUE',
       ss.[BILLING(WUSA/WUK/DIRECT)] AS 'BILLING(WUSA/WUK/DIRECT)',
@@ -68,7 +73,8 @@ router.get('/getPublishedData', (req, res) => {
       ss.[BRAND_TYPE_:_OWN_/_RETAILER_LICENCE_/_WE] AS 'BRAND TYPE : OWN / RETAILER LICENCE / WE',
       ss.[CHANNEL] AS 'CHANNEL',
       sp.[DEC_KGS] AS 'DEC KGS',
-      sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
+  
+      (sp.[DECEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'DECEMBER PCS',
       ss.[DECEMBER(TOTAL_KGS)] AS 'DECEMBER(TOTAL KGS)',
       sp.[DEC_RATE_AS_PER_CURRENCY] AS 'DEC RATE AS PER CURRENCY',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (SALEABLE UNITS)',
@@ -81,10 +87,11 @@ router.get('/getPublishedData', (req, res) => {
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME)',
       ss.[EXPORT/_DOMESTIC] AS 'EXPORT/ DOMESTIC',
       sp.[FEB_KGS] AS 'FEB KGS',
-      sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
+
       ss.[FEBRUARY(TOTAL_KGS)] AS 'FEBRUARY(TOTAL KGS)',
       sp.[FEB_RATE_AS_PER_CURRENCY] AS 'FEB RATE AS PER CURRENCY',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY (SALEABLE UNITS)',
+      (sp.[FEBRUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'FEBRUARY PCS',
       sp.[FEB_USDN] AS 'FEB USDN',
       sp.[FEB_VALUE] AS 'FEB VALUE',
       ss.[GR._YARN_1] AS 'GR. YARN 1',
@@ -101,21 +108,21 @@ router.get('/getPublishedData', (req, res) => {
       ss.[INNOVATION_TYPE] AS 'INNOVATION TYPE',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
       sp.[JAN_KGS] AS 'JAN KGS',
-      sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
-
+      
       sp.[JAN_RATE_AS_PER_CURRENCY] AS 'JAN RATE AS PER CURRENCY',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
+      (sp.[JANUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JANUARY PCS',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
       sp.[JULY_KGS] AS 'JULY KGS',
-      sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
+      (sp.[JULY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JULY(PCS)',
     
       sp.[JUL_RATE_AS_PER_CURRENCY] AS 'JUL RATE AS PER CURRENCY',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
       sp.[JUNE_KGS] AS 'JUNE KGS',
-      sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
+      (sp.[JUN_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JUNE(PCS)',
      
       sp.[JUN_RATE_AS_PER_CURRENCY] AS 'JUN RATE AS PER CURRENCY',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUN (SALEABLE UNITS)',
@@ -136,7 +143,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[MATCODE] AS 'MATCODE',
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
       sp.[MAY_KGS] AS 'MAY KGS',
-      sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
+      (sp.[MAY_(SALEABLE_UNITS)]* ss.[NO_OF_PCS_IN_SET]) AS 'MAY(PCS)',
   
       sp.[MAY_RATE_AS_PER_CURRENCY] AS 'MAY RATE AS PER CURRENCY',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY (SALEABLE UNITS)',
@@ -144,7 +151,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[MAY_VALUE] AS 'MAY VALUE',
       ss.[MERCHANT] AS 'MERCHANT',
       sp.[NOV_KGS] AS 'NOV KGS',
-      sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
+      (sp.[NOVEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'NOVEMBER(PCS)',
       
       sp.[NOV_RATE_AS_PER_CURRENCY] AS 'NOV RATE AS PER CURRENCY',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER (SALEABLE UNITS)',
@@ -153,7 +160,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[OCT_KGS] AS 'OCT KGS',
       sp.[OCT_(SALEABLE_UNIT)] AS 'OCT (SALEABLE UNIT)',
       sp.[OCT_RATE_AS_PER_CURRENCY] AS 'OCT RATE AS PER CURRENCY',
-      ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
+      (sp.[OCT_(SALEABLE_UNIT)] * ss.[NO_OF_PCS_IN_SET]) AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
       ss.[PCS_IN_SET] AS 'PCS IN SET',
@@ -175,7 +182,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[SECONDARYBACKING(GSM)] AS 'SECONDARYBACKING(GSM)',
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
       sp.[SEP_KGS] AS 'SEP KGS',
-      sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
+      (sp.[SEP_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'SEP PCS',
       sp.[SEP_RATE_AS_PER_CURRENCY] AS 'SEP RATE AS PER CURRENCY',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP (SALEABLE UNITS)',
       sp.[SEPT_USDN] AS 'SEPT USDN',
@@ -213,7 +220,7 @@ router.get('/getPublishedData', (req, res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Terry Towel' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
+                        AND sp.[product_cat] = 'Terry Towel' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
   }
@@ -234,10 +241,14 @@ router.get('/getPublishedData', (req, res) => {
       ss.[APRIL(TUFTING_KGS)] AS 'APRIL(TUFTING KGS)',
       sp.[APR_RATE_AS_PER_CURRENCY] AS 'APR RATE AS PER CURRENCY',
       sp.[APR_(SALEABLE_UNITS)] AS 'APR (SALEABLE UNITS)',
+      (sp.[APR_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'APRIL PCS',
+
       sp.[APRIL_USDN] AS 'APRIL USDN',
       sp.[APRIL_VALUE] AS 'APRIL VALUE',
       sp.[AUG_KGS] AS 'AUG KGS',
-      sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
+
+      (sp.[AUGUST_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'AUGUST PCS',
+
       ss.[AUGUST_(SQ_MTS)] AS 'AUGUST (SQ MTS)',
       ss.[AUG_(TOTAL_KGS)] AS 'AUG (TOTAL KGS)',
       ss.[AUG_(TUFTING_KGS)] AS 'AUG (TUFTING KGS)',
@@ -253,7 +264,9 @@ router.get('/getPublishedData', (req, res) => {
       ss.[CHANNEL] AS 'CHANNEL',
       ss.[COUNTRY] AS 'COUNTRY',
       ss.[COATING] AS 'COATING',
-      sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
+
+      (sp.[DECEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'DECEMBER (PCS)',
+      
       ss.[DECEMBER_(SQ_MTS)] AS 'DECEMBER (SQ MTS)',
       ss.[DECEMBER(TOTAL_KGS)] AS 'DECEMBER(TOTAL KGS)',
       ss.[DECEMBER(TUFTING_KGS)] AS 'DECEMBER(TUFTING KGS)',
@@ -266,7 +279,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[END_CUSTOMER_NAME] AS 'END CUSTOMER NAME',
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME',
       ss.[EXPORT/_DOMESTIC] AS 'EXPORT/ DOMESTIC',
-      sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
+      (sp.[FEBRUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'FEBRUARY(PCS)',
       ss.[FEBRUARY(SQ_MTS)] AS 'FEBRUARY(SQ MTS)',
       ss.[FEBRUARY(TOTAL_KGS)] AS 'FEBRUARY(TOTAL KGS)',
       ss.[FEBRUARY(TUFTING_KGS)] AS 'FEBRUARY(TUFTING KGS)',
@@ -277,7 +290,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[FIBRE_TYPE] AS 'FIBRE TYPE',
       ss.[FINISH_GSM] AS 'FINISH GSM',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
-      sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
+      (sp.[JANUARY_(SALEABLE_UNITS)] * SS.[NO_OF_PCS_IN_SET]) AS 'JAN PCS',
       ss.[JANUARY_(SQ_MTS)] AS 'JANUARY (SQ MTS)',
       ss.[JANUARY(TOTAL_KGS)] AS 'JANUARY(TOTAL KGS)',
       ss.[JANUARY(TUFTING_KGS)] AS 'JANUARY(TUFTING KGS)',
@@ -285,7 +298,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
-      sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
+      (sp.[JULY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JULY(PCS)',
       ss.[JULY_(SQ_MTS)] AS 'JULY (SQ MTS)',
       ss.[JULY_(TOTAL_KGS)] AS 'JULY (TOTAL KGS)',
       ss.[JULY_(TUFTING_KGS)] AS 'JULY (TUFTING KGS)',
@@ -293,7 +306,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
-      sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
+      (sp.[JUN_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JUNE(PCS)',
       ss.[JUNE_(SQ_MTS)] AS 'JUNE (SQ MTS)',
       ss.[JUNE_(TOTAL_KGS)] AS 'JUNE (TOTAL KGS)',
       ss.[JUNE_(TUFTING_KGS)] AS 'JUNE (TUFTING KGS)',
@@ -304,7 +317,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[LIKE_TO_LIKE/NEW] AS 'LIKE TO LIKE/NEW',
       ss.[LOGO] AS 'LOGO',
       ss.[LATEX(GSM)] AS 'LATEX(GSM)',
-      sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH(PCS)',
+      (sp.[MARCH_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MARCH(PCS)',
       ss.[MARCH(SQ_MTS)] AS 'MARCH(SQ MTS)',
       ss.[MARCH(TOTAL_KGS)] AS 'MARCH(TOTAL KGS)',
       ss.[MARCH(TUFTING_KGS)] AS 'MARCH(TUFTING KGS)',
@@ -315,7 +328,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[MATCODE] AS 'MATCODE',
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
       ss.[MAY_KGS] AS 'MAY KGS',
-      sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
+      (sp.[MAY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MAY(PCS)',
       ss.[MAY_(SQ_MTS)] AS 'MAY (SQ MTS)',
       ss.[MAY_(TOTAL_KGS)] AS 'MAY (TOTAL KGS)',
       ss.[MAY_(TUFTING_KGS)] AS 'MAY (TUFTING KGS)',
@@ -331,7 +344,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[NON_WASH] AS 'NON WASH',
       ss.[NEW_PROGRAM] AS 'NEW PROGRAM',
       ss.[NO_OF_PCS_IN_SET] AS 'NO OF PCS IN SET',
-      sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
+      (sp.[NOVEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'NOVEMBER(PCS)',
       ss.[NOVEMBER_(SQ_MTS)] AS 'NOVEMBER (SQ MTS)',
       ss.[NOVEMBER_(TUFTING_KGS)] AS 'NOVEMBER (TUFTING KGS)',
       ss.[NOVEMBER(TOTAL_KGS)] AS 'NOVEMBER(TOTAL KGS)',
@@ -344,7 +357,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[OCT_SQ_MTS] AS 'OCT SQ MTS',
       ss.[OCTOBER(TOTAL_KGS)] AS 'OCTOBER(TOTAL KGS)',
       ss.[OCTOBER(TUFTING_KGS)] AS 'OCTOBER(TUFTING KGS)',
-      ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
+      (ss.[OCT_(SALEABLE_UNIT)] * ss.[NO_OF_PCS_IN_SET]) AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
       ss.[ORDER_TYPE] AS 'ORDER TYPE',
@@ -359,7 +372,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[SECONDARY_BACKING_TYPE] AS 'SECONDARY BACKING TYPE',
       ss.[SECONDARYBACKING(GSM)] AS 'SECONDARYBACKING(GSM)',
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
-      sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
+      (sp.[SEP_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'SEP PCS',
       ss.[SEP_SQ_MTS_] AS 'SEP SQ MTS ',
       ss.[SEPT_TOTAL_KGS] AS 'SEPT TOTAL KGS',
       ss.[SEPT_TUFTING_KGS] AS 'SEPT TUFTING KGS',
@@ -402,7 +415,7 @@ router.get('/getPublishedData', (req, res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Rugs' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH_MALANI%')
+                        AND sp.[product_cat] = 'Rugs' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
   }
 
@@ -421,14 +434,17 @@ router.get('/getPublishedData', (req, res) => {
       (sp.[APRIL_KGS] + sp.[MAY_KGS] + sp.[JUNE_KGS] + sp.[JULY_KGS] + sp.[AUG_KGS] + sp.[SEP_KGS] + sp.[OCT_KGS] + sp.[NOV_KGS] + sp.[DEC_KGS] + sp.[JAN_KGS] + sp.[FEB_KGS] + sp.[MAR_KGS]) as 'Total KGS',
       
       ss.[APRIL_(TOTAL_KGS)] AS 'APRIL (TOTAL KGS)',
+
       sp.[APRIL_KGS] AS 'APRIL KGS',
       sp.[APR_RATE_AS_PER_CURRENCY] AS 'APR RATE AS PER CURRENCY',
       sp.[APR_(SALEABLE_UNITS)] AS 'APR (SALEABLE UNITS)',
+      (sp.[APR_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'APRIL PCS',
+
       sp.[APRIL_USDN] AS 'APRIL USDN',
       sp.[APRIL_VALUE] AS 'APRIL VALUE',
 
       sp.[AUG_KGS] AS 'AUG KGS',
-      sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
+      (sp.[AUGUST_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'AUGUST(PCS)',
       sp.[AUG_RATE_AS_PER_CURRENCY] AS 'AUG RATE AS PER CURRENCY',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST (SALEABLE UNITS)',
       sp.[AUG_USDN] AS 'AUG USDN',
@@ -439,7 +455,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[CHANNEL] AS 'CHANNEL',
       ss.[COUNTRY] AS 'COUNTRY',
       sp.[DEC_KGS] AS 'DEC KGS',
-      sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
+      (sp.[DECEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'DECEMBER (PCS)',
       sp.[DEC_RATE_AS_PER_CURRENCY] AS 'DEC RATE AS PER CURRENCY',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (SALEABLE UNITS)',
       sp.[DEC_USDN] AS 'DEC USDN',
@@ -451,7 +467,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME',
       ss.[EXPORT/_DOMESTIC] AS 'EXPORT/ DOMESTIC',
       sp.[FEB_KGS] AS 'FEB KGS',
-      sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
+      (sp.[FEBRUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'FEBRUARY(PCS)',
       ss.[FEBRUARY(TOTAL_KGS)] AS 'FEBRUARY(TOTAL KGS)',
       sp.[FEB_RATE_AS_PER_CURRENCY] AS 'FEB RATE AS PER CURRENCY',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY (SALEABLE UNITS)',
@@ -467,19 +483,19 @@ router.get('/getPublishedData', (req, res) => {
       ss.[INNOVATION_TYPE] AS 'INNOVATION TYPE',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
       sp.[JAN_KGS] AS 'JAN KGS',
-      sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
+      (sp.[JANUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JAN PCS',
       sp.[JAN_RATE_AS_PER_CURRENCY] AS 'JAN RATE AS PER CURRENCY',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
       sp.[JULY_KGS] AS 'JULY KGS',
-      sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
+      (sp.[JULY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JULY(PCS)',
       sp.[JUL_RATE_AS_PER_CURRENCY] AS 'JUL RATE AS PER CURRENCY',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
       sp.[JUNE_KGS] AS 'JUNE KGS',
-      sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
+      (sp.[JUN_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JUNE(PCS)',
       sp.[JUN_RATE_AS_PER_CURRENCY] AS 'JUN RATE AS PER CURRENCY',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUN (SALEABLE UNITS)',
       sp.[JUNE_USDN] AS 'JUNE USDN',
@@ -487,7 +503,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[LIKE_TO_LIKE/NEW] AS 'LIKE TO LIKE/NEW',
       ss.[LOGO] AS 'LOGO',
       ss.[LOOM] AS 'LOOM',
-      sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH(PCS)',
+      (sp.[MARCH_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MARCH(PCS)',
       sp.[MAR_KGS] AS 'MAR KGS',
       sp.[MAR_RATE_AS_PER_CURRENCY] AS 'MAR RATE AS PER CURRENCY',
       sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH (SALEABLE UNITS)',
@@ -496,7 +512,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[MATCODE] AS 'MATCODE',
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
       sp.[MAY_KGS] AS 'MAY KGS',
-      sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
+      (sp.[MAY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MAY(PCS)',
       sp.[MAY_RATE_AS_PER_CURRENCY] AS 'MAY RATE AS PER CURRENCY',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY (SALEABLE UNITS)',
       sp.[MAY_USDN] AS 'MAY USDN',
@@ -506,7 +522,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[NEW_PROGRAM] AS 'NEW PROGRAM',
       ss.[NO_OF_PCS_IN_SET] AS 'NO OF PCS IN SET',
       sp.[NOV_KGS] AS 'NOV KGS',
-      sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
+      (sp.[NOVEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'NOVEMBER(PCS)',
       sp.[NOV_RATE_AS_PER_CURRENCY] AS 'NOV RATE AS PER CURRENCY',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER (SALEABLE UNITS)',
       sp.[NOV_USDN] AS 'NOV USDN',
@@ -514,7 +530,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[OCT_KGS] AS 'OCT KGS',
       sp.[OCT_(SALEABLE_UNIT)] AS 'OCT (SALEABLE UNIT)',
       sp.[OCT_RATE_AS_PER_CURRENCY] AS 'OCT RATE AS PER CURRENCY',
-      ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
+      (sp.[OCT_(SALEABLE_UNIT)] * ss.[NO_OF_PCS_IN_SET]) AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
       ss.[PILE_1_PLY] AS 'PILE 1 PLY',
@@ -534,7 +550,7 @@ router.get('/getPublishedData', (req, res) => {
       
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
       sp.[SEP_KGS] AS 'SEP KGS',
-      sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
+      (sp.[SEP_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'SEP PCS',
       sp.[SEP_RATE_AS_PER_CURRENCY] AS 'SEP RATE AS PER CURRENCY',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP (SALEABLE UNITS)',
       sp.[SEPT_USDN] AS 'SEPT USDN',
@@ -565,7 +581,7 @@ router.get('/getPublishedData', (req, res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Bath' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
+                        AND sp.[product_cat] = 'Bath' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
   }
@@ -587,10 +603,12 @@ router.get('/getPublishedData', (req, res) => {
       ss.[APR_MTR] AS 'APR MTR',
       sp.[APR_RATE_AS_PER_CURRENCY] AS 'APR RATE AS PER CURRENCY',
       sp.[APR_(SALEABLE_UNITS)] AS 'APR (SALEABLE UNITS)',
+      (sp.[APR_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'APRIL PCS',
+
       sp.[APRIL_USDN] AS 'APRIL USDN',
       sp.[APRIL_VALUE] AS 'APRIL VALUE',
       ss.[AUG_MTR] AS 'AUG MTR',
-      sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
+      (sp.[AUGUST_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'AUGUST(PCS)',
       sp.[AUG_RATE_AS_PER_CURRENCY] AS 'AUG RATE AS PER CURRENCY',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST (SALEABLE UNITS)',
       sp.[AUG_USDN] AS 'AUG USDN',
@@ -600,7 +618,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[BRAND_TYPE_:_OWN_/_RETAILER_LICENCE_/_WE] AS 'BRAND TYPE : OWN / RETAILER LICENCE / WE',
       ss.[CHANNEL] AS 'CHANNEL',
       ss.[CONSTRUCTION] AS 'CONSTRUCTION',
-      sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
+      (sp.[DECEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'DECEMBER (PCS)',
       sp.[DEC_RATE_AS_PER_CURRENCY] AS 'DEC RATE AS PER CURRENCY',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (SALEABLE UNITS)',
       sp.[DEC_USDN] AS 'DEC USDN',
@@ -612,7 +630,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[END_CUSTOMER_NAME] AS 'END CUSTOMER NAME',
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME',
       ss.[EXPORT/_DOMESTIC] AS 'EXPORT/ DOMESTIC',
-      sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
+      (sp.[FEBRUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'FEBRUARY(PCS)',
       ss.[FEB_MTR] AS 'FEB MTR',
       sp.[FEB_RATE_AS_PER_CURRENCY] AS 'FEB RATE AS PER CURRENCY',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY (SALEABLE UNITS)',
@@ -624,19 +642,19 @@ router.get('/getPublishedData', (req, res) => {
       ss.[GREIGE_WIDTH_GABRIC_2] AS 'GREIGE WIDTH GABRIC 2',
       ss.[GRELGE_WLDTH] AS 'GRELGE WLDTH',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
-      sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
+      (sp.[JANUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JAN PCS',
       ss.[JAN_MTR] AS 'JAN MTR',
       sp.[JAN_RATE_AS_PER_CURRENCY] AS 'JAN RATE AS PER CURRENCY',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
-      sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
+      (sp.[JULY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JULY(PCS)',
       ss.[JUL_MTR] AS 'JUL MTR',
       sp.[JUL_RATE_AS_PER_CURRENCY] AS 'JUL RATE AS PER CURRENCY',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
-      sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
+      (sp.[JUN_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JUNE(PCS)',
       ss.[JUNE_MTR] AS 'JUNE MTR',
       sp.[JUN_RATE_AS_PER_CURRENCY] AS 'JUN RATE AS PER CURRENCY',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUN (SALEABLE UNITS)',
@@ -648,7 +666,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[LOGO] AS 'LOGO',
       ss.[LOOM] AS 'LOOM',
       ss.[LYCRA_FLNSH_WLDTH] AS 'LYCRA FLNSH WLDTH',
-      sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH(PCS)',
+      (sp.[MARCH_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MARCH(PCS)',
       ss.[MAR_MTR] AS 'MAR MTR',
       sp.[MAR_RATE_AS_PER_CURRENCY] AS 'MAR RATE AS PER CURRENCY',
       sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH (SALEABLE UNITS)',
@@ -656,7 +674,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[MAR_VALUE] AS 'MAR VALUE',
       ss.[MATCODE] AS 'MATCODE',
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
-      sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
+      (sp.[MAY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MAY(PCS)',
       ss.[MAY_MTR] AS 'MAY MTR',
       sp.[MAY_RATE_AS_PER_CURRENCY] AS 'MAY RATE AS PER CURRENCY',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY (SALEABLE UNITS)',
@@ -676,7 +694,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[NON_WOVEN_LAMINATED__FINISH_WIDTH] AS 'NON WOVEN LAMINATED FINISH WIDTH',
       ss.[NEW_PROGRAM] AS 'NEW PROGRAM',
       ss.[NO_OF_PCS_IN_SET] AS 'NO OF PCS IN SET',
-      sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
+      (sp.[NOVEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'NOVEMBER(PCS)',
       ss.[NOV_MTR] AS 'NOV MTR',
       sp.[NOV_RATE_AS_PER_CURRENCY] AS 'NOV RATE AS PER CURRENCY',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER (SALEABLE UNITS)',
@@ -685,7 +703,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[OCT_(SALEABLE_UNIT)] AS 'OCT (SALEABLE UNIT)',
       sp.[OCT_RATE_AS_PER_CURRENCY] AS 'OCT RATE AS PER CURRENCY',
       ss.[OCT_MTR] AS 'OCT MTR',
-      ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
+      (sp.[OCT_(SALEABLE_UNIT)] * ss.[NO_OF_PCS_IN_SET]) AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
       ss.[ORDER_TYPE] AS 'ORDER TYPE',
@@ -713,7 +731,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[Q4_UVR] AS 'Q4 UVR',
       ss.[REGION] AS 'REGION',
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
-      sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
+      (sp.[SEP_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'SEP PCS',
       ss.[SEP_MTR] AS 'SEP MTR',
       sp.[SEP_RATE_AS_PER_CURRENCY] AS 'SEP RATE AS PER CURRENCY',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP (SALEABLE UNITS)',
@@ -757,7 +775,7 @@ router.get('/getPublishedData', (req, res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Sheets' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
+                        AND sp.[product_cat] = 'Sheets' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
   }
@@ -778,10 +796,12 @@ router.get('/getPublishedData', (req, res) => {
       ss.[APR_MTR] AS 'APR MTR',
       sp.[APR_RATE_AS_PER_CURRENCY] AS 'APR RATE AS PER CURRENCY',
       sp.[APR_(SALEABLE_UNITS)] AS 'APR (SALEABLE UNITS)',
+      (sp.[APR_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'APRIL PCS',
+
       sp.[APRIL_USDN] AS 'APRIL USDN',
       sp.[APRIL_VALUE] AS 'APRIL VALUE',
       ss.[AUG_MTR] AS 'AUG MTR',
-      sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST(PCS)',
+      (sp.[AUGUST_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'AUGUST(PCS)',
       sp.[AUG_RATE_AS_PER_CURRENCY] AS 'AUG RATE AS PER CURRENCY',
       sp.[AUGUST_(SALEABLE_UNITS)] AS 'AUGUST (SALEABLE UNITS)',
       sp.[AUG_USDN] AS 'AUG USDN',
@@ -791,7 +811,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[BRAND_TYPE_:_OWN_/_RETAILER_LICENCE_/_WE] AS 'BRAND TYPE : OWN / RETAILER LICENCE / WE',
       ss.[CHANNEL] AS 'CHANNEL',
       ss.[CONSTRUCTION] AS 'CONSTRUCTION',
-      sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (PCS)',
+      (sp.[DECEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'DECEMBER (PCS)',
       sp.[DEC_RATE_AS_PER_CURRENCY] AS 'DEC RATE AS PER CURRENCY',
       sp.[DECEMBER_(SALEABLE_UNITS)] AS 'DECEMBER (SALEABLE UNITS)',
       sp.[DEC_USDN] AS 'DEC USDN',
@@ -803,7 +823,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[END_CUSTOMER_NAME] AS 'END CUSTOMER NAME',
       ss.[ENQ_STATUS(LIKELY/MOST_LIKELY_/CONFIRME] AS 'ENQ STATUS(LIKELY/MOST LIKELY /CONFIRME',
       ss.[EXPORT/_DOMESTIC] AS 'EXPORT/ DOMESTIC',
-      sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY(PCS)',
+      (sp.[FEBRUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'FEBRUARY(PCS)',
       ss.[FEB_MTR] AS 'FEB MTR',
       sp.[FEB_RATE_AS_PER_CURRENCY] AS 'FEB RATE AS PER CURRENCY',
       sp.[FEBRUARY_(SALEABLE_UNITS)] AS 'FEBRUARY (SALEABLE UNITS)',
@@ -815,19 +835,19 @@ router.get('/getPublishedData', (req, res) => {
       ss.[GREIGE_WIDTH_GABRIC_2] AS 'GREIGE WIDTH GABRIC 2',
       ss.[GRELGE_WLDTH] AS 'GRELGE WLDTH',
       ss.[INNOVATION(YES/_NO)] AS 'INNOVATION(YES/ NO)',
-      sp.[JANUARY_(SALEABLE_UNITS)] AS 'JAN PCS',
+      (sp.[JANUARY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JAN PCS',
       ss.[JAN_MTR] AS 'JAN MTR',
       sp.[JAN_RATE_AS_PER_CURRENCY] AS 'JAN RATE AS PER CURRENCY',
       sp.[JANUARY_(SALEABLE_UNITS)] AS 'JANUARY (SALEABLE UNITS)',
       sp.[JAN_USDN] AS 'JAN USDN',
       sp.[JAN_VALUE] AS 'JAN VALUE',
-      sp.[JULY_(SALEABLE_UNITS)] AS 'JULY(PCS)',
+      (sp.[JULY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JULY(PCS)',
       ss.[JUL_MTR] AS 'JUL MTR',
       sp.[JUL_RATE_AS_PER_CURRENCY] AS 'JUL RATE AS PER CURRENCY',
       sp.[JULY_(SALEABLE_UNITS)] AS 'JULY (SALEABLE UNITS)',
       sp.[JULY_USDN] AS 'JULY USDN',
       sp.[JULY_VALUE] AS 'JULY VALUE',
-      sp.[JUN_(SALEABLE_UNITS)] AS 'JUNE(PCS)',
+      (sp.[JUN_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'JUNE(PCS)',
       ss.[JUNE_MTR] AS 'JUNE MTR',
       sp.[JUN_RATE_AS_PER_CURRENCY] AS 'JUN RATE AS PER CURRENCY',
       sp.[JUN_(SALEABLE_UNITS)] AS 'JUN (SALEABLE UNITS)',
@@ -839,7 +859,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[LOGO] AS 'LOGO',
       ss.[LOOM] AS 'LOOM',
       ss.[LYCRA_FLNSH_WLDTH] AS 'LYCRA FLNSH WLDTH',
-      sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH(PCS)',
+      (sp.[MARCH_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MARCH(PCS)',
       ss.[MAR_MTR] AS 'MAR MTR',
       sp.[MAR_RATE_AS_PER_CURRENCY] AS 'MAR RATE AS PER CURRENCY',
       sp.[MARCH_(SALEABLE_UNITS)] AS 'MARCH (SALEABLE UNITS)',
@@ -847,7 +867,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[MAR_VALUE] AS 'MAR VALUE',
       ss.[MATCODE] AS 'MATCODE',
       ss.[MATERIAL_DESCRIPTION] AS 'MATERIAL DESCRIPTION',
-      sp.[MAY_(SALEABLE_UNITS)] AS 'MAY(PCS)',
+      (sp.[MAY_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'MAY(PCS)',
       ss.[MAY_MTR] AS 'MAY MTR',
       sp.[MAY_RATE_AS_PER_CURRENCY] AS 'MAY RATE AS PER CURRENCY',
       sp.[MAY_(SALEABLE_UNITS)] AS 'MAY (SALEABLE UNITS)',
@@ -867,7 +887,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[NON_WOVEN_LAMINATED__FINISH_WIDTH] AS 'NON WOVEN LAMINATED FINISH WIDTH',
       ss.[NEW_PROGRAM] AS 'NEW PROGRAM',
       ss.[NO_OF_PCS_IN_SET] AS 'NO OF PCS IN SET',
-      sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER(PCS)',
+      (sp.[NOVEMBER_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'NOVEMBER(PCS)',
       ss.[NOV_MTR] AS 'NOV MTR',
       sp.[NOV_RATE_AS_PER_CURRENCY] AS 'NOV RATE AS PER CURRENCY',
       sp.[NOVEMBER_(SALEABLE_UNITS)] AS 'NOVEMBER (SALEABLE UNITS)',
@@ -876,7 +896,7 @@ router.get('/getPublishedData', (req, res) => {
       sp.[OCT_(SALEABLE_UNIT)] AS 'OCT (SALEABLE UNIT)',
       sp.[OCT_RATE_AS_PER_CURRENCY] AS 'OCT RATE AS PER CURRENCY',
       ss.[OCT_MTR] AS 'OCT MTR',
-      ss.[OCTOBER(PCS)] AS 'OCTOBER(PCS)',
+      (sp.[OCT_(SALEABLE_UNIT)] * ss.[NO_OF_PCS_IN_SET]) AS 'OCTOBER(PCS)',
       sp.[OCTOBER_(USDN)] AS 'OCTOBER (USDN)',
       sp.[OCT_(VALUE)] AS 'OCT (VALUE)',
       ss.[ORDER_TYPE] AS 'ORDER TYPE',
@@ -904,7 +924,7 @@ router.get('/getPublishedData', (req, res) => {
       ss.[Q4_UVR] AS 'Q4 UVR',
       ss.[REGION] AS 'REGION',
       ss.[SELLING_CURRENCY] AS 'SELLING CURRENCY',
-      sp.[SEP_(SALEABLE_UNITS)] AS 'SEP PCS',
+      (sp.[SEP_(SALEABLE_UNITS)] * ss.[NO_OF_PCS_IN_SET]) AS 'SEP PCS',
       ss.[SEP_MTR] AS 'SEP MTR',
       sp.[SEP_RATE_AS_PER_CURRENCY] AS 'SEP RATE AS PER CURRENCY',
       sp.[SEP_(SALEABLE_UNITS)] AS 'SEP (SALEABLE UNITS)',
@@ -948,12 +968,12 @@ router.get('/getPublishedData', (req, res) => {
       FROM   salesplan_publish AS sp
             INNER JOIN SALESPLAN_SIMULATION AS ss
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
-                        AND sp.[product_cat] = 'Top of Bed' AND (sp.[VERSION_NO] like '%AVINASH_MALANI%' OR sp.[TEAM_LEADER] like '%AVINASH MALANI%')
+                        AND sp.[product_cat] = 'Top of Bed' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
   }
 
-  console.log("query to publish data", query)
+  console.log(query)
   setSimulation(query).then((data) => {
 
     res.json(data);
@@ -1154,7 +1174,7 @@ router.get("/chartsData", (req, res) => {
   getChartSimulatedData(query).then((data) => {
 
     res.json(data);
-    console.log(data);
+ 
 
   })
 
@@ -1170,7 +1190,7 @@ select TOP(5) Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [A
   getChartSimulatedData(query).then((data) => {
 
     res.json(data);
-    console.log(data);
+ 
 
   })
 
