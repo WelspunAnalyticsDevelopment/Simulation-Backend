@@ -4,7 +4,7 @@ const {host } = require('./Config'); // Update the path accordingly
 const app = express();
 const cors = require('cors');
 
-const versionRoutes = require('./Version/Version');
+// const versionRoutes = require('./Version/Version');
 const summaryRoutes = require('./Summary/Summary');
 const simulationRoutes = require('./Simulation/Simulation');
 const { get } = require('http');
@@ -23,7 +23,7 @@ app.listen(host || 3031, () => {
 
 app.use(bodyParser.json({limit : '30mb'}));
 
-app.use('/version',versionRoutes);
+// app.use('/version',versionRoutes);
 
 app.use('/summary',summaryRoutes);
 

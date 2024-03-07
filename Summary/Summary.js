@@ -973,7 +973,7 @@ router.get('/getPublishedData', (req, res) => {
 
   }
 
-  console.log(query)
+  
   setSimulation(query).then((data) => {
 
     res.json(data);
