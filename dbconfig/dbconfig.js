@@ -1,12 +1,12 @@
 const sql = require('mssql');
-const {userName, password, server, database} = require('../Config')
+const config =  require('../config');
 
 // Database configuration
-const config = {
-  user: 'Sales_Simulation',
-  password: 'Welspun@12345',
-  server: '192.168.50.68',
-  database: 'DB_MARKETING',
+const dbConfig = {
+  user: config.USER,
+  password: config.PASSWORD,
+  server: config.SERVER,
+  database: config.DATABASE,
   options: {
     encrypt: true,
     trustServerCertificate: true,
@@ -15,4 +15,4 @@ const config = {
 
 
 
-module.exports = config ;
+module.exports = dbConfig ;

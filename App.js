@@ -1,13 +1,14 @@
-const express = require('express');
+var express = require('express');
 const bodyParser = require('body-parser');
-const {host } = require('./Config'); // Update the path accordingly
-const app = express();
-const cors = require('cors');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// const versionRoutes = require('./Version/Version');
 const summaryRoutes = require('./Summary/Summary');
 const simulationRoutes = require('./Simulation/Simulation');
-const { get } = require('http');
+const indexRoutes = require('./routes/index');
+
+var app = express();
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
@@ -16,20 +17,17 @@ app.use((req, res, next) => {
     next();
   });
 
-app.listen(host || 3031, () => {
-  console.log(`Server is running on port ${host || 3031}`);
-});
-
-
 app.use(bodyParser.json({limit : '30mb'}));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/version',versionRoutes);
+app.use('/', indexRoutes);
 
-app.use('/summary',summaryRoutes);
+app.use('/summary', summaryRoutes);
 
-app.use('/simulation',simulationRoutes);
+app.use('/simulation', simulationRoutes);
 
-
-
-      
-
+module.exports = app;
