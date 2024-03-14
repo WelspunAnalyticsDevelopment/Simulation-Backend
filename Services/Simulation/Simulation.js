@@ -11,16 +11,19 @@ async function getSimulation(sqlStatment) {
           const plant = data.plant
           const region = data.region
           const program = data.program
+          const productSubCat = data.productSubCat
         
           delete data.customerName
           delete data.plant
           delete data.region
           delete data.program
+          delete data.productSubCat
           return({
             customerName: customerName,
             plant: plant,
             region: region,
             program: program,
+            productSubCat: productSubCat,
             lastYear: data,
             thisYear: data
           })

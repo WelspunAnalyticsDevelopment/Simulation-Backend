@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
   jsonData.map(({ key, value }, index) => {
     if (index === 0) {
-      query += `Select TOP(15) ${key} as ${value},`
+      query += `Select ${key} as ${value},`
     }
     else if (index > 0 && index !== jsonData.length - 1) {
       query += `${key} as ${value},`
@@ -983,7 +983,7 @@ router.get('/getPublishedData', (req, res) => {
 
 
 })
-
+  
 
 
 
