@@ -12,5 +12,7 @@ module.exports = {
     USER : process.env.USER,
     PASSWORD: process.env.PASSWORD,
     SERVER: process.env.SERVER,
-    DATABASE: process.env.DATABASE
+    DATABASE: process.env.DATABASE,
+    LOGFOLDER: process.env.LOGFOLDER,
+    LOGFILE: process.env.LOGFILE
 }
