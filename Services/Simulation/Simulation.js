@@ -24,6 +24,7 @@ async function getSimulation(sqlStatment) {
             region: region,
             program: program,
             productSubCat: productSubCat,
+            checked : false,
             lastYear: data,
             thisYear: data
           })

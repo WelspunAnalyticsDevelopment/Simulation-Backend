@@ -5,6 +5,10 @@
         "value": "customerName"
     },
     {
+        "key": "[WT/PC]",
+        "value": "wtPerPC"
+    },
+    {
         "key": "[PROGRAM]",
         "value" : "program"
     },
@@ -24,7 +28,6 @@
         "key" : "[PRODUCT_SUBCAT]",
         "value" : "productSubCat"
     },
-    
     {
         "key" : "[TEAM_LEADER]",
         "value" : "teamLeader"
@@ -61,7 +64,6 @@
         "key": "[APRIL_USDN]",
         "value": "aprilUSDN"
     },
-    
     {
         "key": "[MAY_(SALEABLE_UNITS)]",
         "value": "maySaleableUnit"

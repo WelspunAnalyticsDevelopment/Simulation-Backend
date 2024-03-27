@@ -5,44 +5,58 @@ const router = express.Router();
 const jsonData = require('../AppConfig/anjar.json');
 const getDataDb = require('../AppConfig/getDataDB.json');
 const { json } = require('body-parser');
+const logger = require('../logs/logger');
+const { DateTime } = require('mssql');
+
 
 
 
 router.get('/', (req, res) => {
-  
-  query = ""
+
+  // logger.info(`loading data from user ${req.query.name}`);
+  try {
+    logger.info(`${req.query.name} | \t ${process.env.URL}/summary/`)
 
 
-  jsonData.map(({ key, value }, index) => {
-    if (index === 0) {
-      query += `Select ${key} as ${value},`
-    }
-    else if (index > 0 && index !== jsonData.length - 1) {
-      query += `${key} as ${value},`
-    }
-    else {
-      query += `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%${req.query.name}%' OR TEAM_LEADER like '%${req.query.name}%')`
-    }
-  })
+    query = ""
 
-  
-  getSimulation(query).then((data) => {
+    jsonData.map(({ key, value }, index) => {
+      if (index === 0) {
+        query += `Select ${key} as ${value},`
+      }
+      else if (index > 0 && index !== jsonData.length - 1) {
+        query += `${key} as ${value},`
+      }
+      else {
+        query += `${key} as ${value} from SALESPLAN_SIMULATION WHERE [PRODUCT_CAT] = '${req.query.selectedProduct}' AND (MERCHANT like '%${req.query.name}%' OR TEAM_LEADER like '%${req.query.name}%')`
+      }
+    })
 
-    res.json(data);
 
-  })
+    getSimulation(query).then((data) => {
+
+      res.json(data);
+
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.name} | \t ${process.env.URL}/summary/ | \t ${error}`)
+  }
 
 });
 
 
 router.get('/getPublishedData', (req, res) => {
 
-  
-  let query = '';
+  try {
 
-  if (req.query.productName == 'Terry Towel') {
+    logger.info(`${req.query.teamLeader} | \t ${process.env.URL}/summary/getPublishedData`)
 
-    query += `
+    let query = '';
+
+    if (req.query.productName == 'Terry Towel') {
+
+      query += `
       SELECT
       sp.[VERSION_NO] AS 'versionNo',
       sp.[UNIQUE_IDENTIFICATION_NO] AS 'UNIQUE IDENTIFICATION NO',
@@ -223,11 +237,11 @@ router.get('/getPublishedData', (req, res) => {
                         AND sp.[product_cat] = 'Terry Towel' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
-  }
+    }
 
-  else if (req.query.productName == 'Rugs') {
+    else if (req.query.productName == 'Rugs') {
 
-    query += `
+      query += `
       SELECT
       sp.[VERSION_NO] AS 'versionNo',
       sp.[UNIQUE_IDENTIFICATION_NO] AS 'UNIQUE IDENTIFICATION NO',
@@ -417,12 +431,12 @@ router.get('/getPublishedData', (req, res) => {
                     ON sp.[unique_identification_no] = ss.[unique_identification_no]
                         AND sp.[product_cat] = 'Rugs' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
-  }
+    }
 
 
-  else if (req.query.productName == 'Bath') {
+    else if (req.query.productName == 'Bath') {
 
-    query += `
+      query += `
       SELECT
       sp.[VERSION_NO] AS 'versionNo',
       sp.[UNIQUE_IDENTIFICATION_NO] AS 'UNIQUE IDENTIFICATION NO',
@@ -584,12 +598,12 @@ router.get('/getPublishedData', (req, res) => {
                         AND sp.[product_cat] = 'Bath' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
-  }
+    }
 
 
-  else if (req.query.productName == 'Sheets') {
+    else if (req.query.productName == 'Sheets') {
 
-    query += `
+      query += `
       SELECT
 
       sp.[VERSION_NO] AS 'versionNo',
@@ -778,11 +792,11 @@ router.get('/getPublishedData', (req, res) => {
                         AND sp.[product_cat] = 'Sheets' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
-  }
+    }
 
-  else if (req.query.productName == 'Top of Bed') {
+    else if (req.query.productName == 'Top of Bed') {
 
-    query += `
+      query += `
       SELECT
 
       sp.[VERSION_NO] AS 'versionNo',
@@ -971,19 +985,23 @@ router.get('/getPublishedData', (req, res) => {
                         AND sp.[product_cat] = 'Top of Bed' AND (sp.[VERSION_NO] like '%${req.query.teamLeader}%' OR sp.[TEAM_LEADER] like '%${req.query.teamLeader}%')
       `;
 
+    }
+
+
+    setSimulation(query).then((data) => {
+
+      res.json(data);
+
+    })
+
+
   }
-
-  
-  setSimulation(query).then((data) => {
-
-    res.json(data);
-
-  })
-
-
-
+  catch (error) {
+    logger.verbose(`${req.query.teamLeader} | \t ${process.env.URL}/summary/getPublishedData | \t ${error}`)
+  }
 })
-  
+
+
 
 
 
@@ -991,16 +1009,19 @@ router.get('/getPublishedData', (req, res) => {
 
 router.post('/save-data', async (req, res) => {
   try {
+
+    logger.info(`${req.body.textValue} | \t ${process.env.URL}/summary/save-data`)
+
     var query = ""
 
     jsonData.map(({ key, value }, index) => {
-      if (index === 0) {
+      if (index === 0 && key != "[WT/PC]") {
         query += `Insert INTO SIMULATION_OUTPUT ( [VERSION_NO] , ${key},`
       }
-      else if (index > 0 && index !== jsonData.length - 1) {
+      else if (index > 0 && index !== jsonData.length - 1 && key != "[WT/PC]") {
         query += `${key},`
       }
-      else {
+      else if(index == jsonData.length-1 && key != "[WT/PC]"){
         query += ` ${key}) Values`
       }
     })
@@ -1018,12 +1039,15 @@ router.post('/save-data', async (req, res) => {
       }
     })
     setSimulation(query + summaryData).then((data) => {
-
+      console.log("this is the insert querry",query + summaryData)
       res.json(data);
 
     })
 
-  } catch (error) {
+  }
+
+  catch (error) {
+    logger.verbose(`${req.body.textValue} | \t ${process.env.URL}/summary/save-data | \t ${error}`)
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -1031,19 +1055,25 @@ router.post('/save-data', async (req, res) => {
 //check duplicate publish versions
 
 router.get('/already-published', async (req, res) => {
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/already-published`)
+    var query = `SELECT COUNT(*) As total_count FROM SALESPLAN_PUBLISH WHERE [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%'`;
+    setSimulation(query).then((data) => {
 
-  var query = `SELECT COUNT(*) As total_count FROM SALESPLAN_PUBLISH WHERE [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%'`;
-  setSimulation(query).then((data) => {
+      res.json(data.recordsets[0][0]["total_count"]);
 
-    res.json(data.recordsets[0][0]["total_count"]);
-
-  })
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/already-published | \t ${error}`)
+  }
 })
 
 //publish data api
 
 router.post('/publish-version', async (req, res) => {
   try {
+    logger.info(`${req.body.publishVersion} | \t ${process.env.URL}/summary/publish-version`)
     var query = '';
     // console.log(req);
 
@@ -1079,6 +1109,7 @@ router.post('/publish-version', async (req, res) => {
     })
   }
   catch (error) {
+    logger.verbose(`${req.body.publishVersion} | \t ${process.env.URL}/summary/publish-version | \t ${error}`)
     console.log('error', error);
   }
 
@@ -1098,46 +1129,58 @@ router.post('/publish-version', async (req, res) => {
 router.get("/getVersion", (req, res) => {
 
   // var query = `SELECT [VERSION_NO] FROM SIMULATION_OUTPUT where [VERSION_NO] like '%${req.query.userName}%' AND [PRODUCT_CAT] like '%${req.query.product}%' GROUP BY [VERSION_NO]`
-  var query = `Select Distinct td.VERSION_NO,
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/getVersion`)
+    var query = `Select Distinct td.VERSION_NO,
                   (CASE
                     WHEN sp.VERSION_NO IS NULL THEN 0
                     Else 1
                   END) as isPublished
                 from SALESPLAN_PUBLISH sp right join SIMULATION_OUTPUT td on  sp.VERSION_NO = td.VERSION_NO
                 where td.VERSION_NO like '%${req.query.userName}%' AND td.PRODUCT_CAT like '%${req.query.product}%' GROUP BY td.VERSION_NO, sp.VERSION_NO`
- 
-  // console.log(query)
 
-  setSimulation(query).then((data) => {
-    // console.log(data);
-    res.json(data.recordset);
-  })
+    // console.log(query)
+
+    setSimulation(query).then((data) => {
+      // console.log(data);
+      res.json(data.recordset);
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/getVersion | \t ${error}`)
+  }
 })
 
 
 router.get("/savedSimulatedData", (req, res) => {
   // console.log("version name---------- ",req.query);
-  var query = ""
-  jsonData.map(({ key, value }, index) => {
-    if (index === 0) {
-      query += `Select ${key} as ${value},`
-    }
-    else if (index > 0 && index !== jsonData.length - 1) {
-      query += `${key} as ${value},`
-    }
-    else {
-      query += `${key} as ${value} from SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.version}'`
+  try {
+    logger.info(`${req.query.name} | \t ${process.env.URL}/summary/savedSimulatedData`)
+    var query = ""
+    jsonData.map(({ key, value }, index) => {
+      if (index === 0 && key !== "[WT/PC]") {
+        query += `Select ${key} as ${value},`
+      }
+      else if (index > 0 && index !== jsonData.length - 1 && key !== "[WT/PC]") {
+        query += `${key} as ${value},`
+      }
+      else if(index == jsonData.length -1 && key !== "[WT/PC]") {
+        query += `${key} as ${value} from SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.version}'`
 
-    }
-    // console.log("querry---->",query);
+      }
+      // console.log("querry---->",query);
 
-  })
+    })
 
-  getSimulation(query).then((data) => {
+    getSimulation(query).then((data) => {
 
-    res.json(data);
+      res.json(data);
 
-  })
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.name} | \t ${process.env.URL}/summary/savedSimulatedData | \t ${error}`)
+  }
 
 })
 
@@ -1147,15 +1190,21 @@ router.get("/checkDuplicateVersion", (req, res) => {
   // Access query parameters using req.query
   // console.log("UserName ",req.query.textValue)
   // console.log("Number value", req.query.numberValue);
-  var query = `SELECT COUNT(*) As total_count FROM SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.textValue}-V-${req.query.numberValue}'`;
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/checkDuplicateVersion`)
+    var query = `SELECT COUNT(*) As total_count FROM SIMULATION_OUTPUT WHERE [VERSION_NO] = '${req.query.textValue}-V-${req.query.numberValue}'`;
 
-  setSimulation(query).then((data) => {
+    setSimulation(query).then((data) => {
 
-    // console.log("data------", data.recordsets[0][0]["total_count"]);
+      // console.log("data------", data.recordsets[0][0]["total_count"]);
 
-    res.json(data.recordsets[0][0]["total_count"]);
+      res.json(data.recordsets[0][0]["total_count"]);
 
-  })
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/checkDuplicateVersion | \t ${error}`)
+  }
 });
 
 
@@ -1168,37 +1217,44 @@ router.get("/checkDuplicateVersion", (req, res) => {
 // API to get chart Data
 
 router.get("/chartsData", (req, res) => {
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/chartsData`)
+    var query = `select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [REGION] from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [REGION]`
 
-  var query = `select Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [REGION] from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [REGION]`
+    getChartSimulatedData(query).then((data) => {
 
-  getChartSimulatedData(query).then((data) => {
-
-    res.json(data);
- 
-
-  })
-
+      res.json(data);
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/chartsData | \t ${error}`)
+  }
 })
 
 router.get("/pieChartCustomer", (req, res) => {
-
-  var query = `
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/pieChartCustomer`)
+    var query = `
 select TOP(5) Sum([APRIL_VALUE] + [MAY_VALUE] + [JUNE_VALUE] + [JULY_VALUE] + [AUG_VALUE] + [SEPT_VALUE] + [OCT_(VALUE)] + [NOV_VALUE] + [DEC_VALUE] + [JAN_VALUE] + [FEB_VALUE] + [MAR_VALUE]) as 'totalValue', [END_CUSTOMER_NAME] as 'endCustomerName' from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}' group by [END_CUSTOMER_NAME] ORDER BY 'totalValue' DESC`
 
-  // console.log("get pie chart data for customers ---------",query)
+    // console.log("get pie chart data for customers ---------",query)
 
-  getChartSimulatedData(query).then((data) => {
+    getChartSimulatedData(query).then((data) => {
 
-    res.json(data);
- 
+      res.json(data);
 
-  })
 
+    })
+  }
+  catch (error) {
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/pieChartCustomer | \t ${error}`)
+  }
 })
 
 router.get("/barCharData", (req, res) => {
-
-  var query = `with NEW_SIMULATION_OUTPUT AS (
+  try {
+    logger.info(`${req.query.userName} | \t ${process.env.URL}/summary/barCharData`)
+    var query = `with NEW_SIMULATION_OUTPUT AS (
     select * from SIMULATION_OUTPUT where [VERSION_NO] = '${req.query.version}'
    )
    SELECT 
@@ -1262,46 +1318,108 @@ router.get("/barCharData", (req, res) => {
        old.plant;
    `;
 
-  getChartSimulatedData(query).then((data) => {
+    getChartSimulatedData(query).then((data) => {
 
-    const oldValues = []
-    const newValues = []
-    const oldSaleableUnit = []
-    const newSaleableUnit = []
+      const oldValues = []
+      const newValues = []
+      const oldSaleableUnit = []
+      const newSaleableUnit = []
 
-    data.forEach((item) => {
+      data.forEach((item) => {
 
-      Object.keys(item).forEach((key => {
-        if (key.startsWith("old_") && key.endsWith("_value")) {
-          oldValues.push(item[key]);
-        }
-      }));
+        Object.keys(item).forEach((key => {
+          if (key.startsWith("old_") && key.endsWith("_value")) {
+            oldValues.push(item[key]);
+          }
+        }));
 
-      Object.keys(item).forEach((key => {
-        if (key.startsWith("new_") && key.endsWith("_value")) {
-          newValues.push(item[key]);
-        }
-      }));
+        Object.keys(item).forEach((key => {
+          if (key.startsWith("new_") && key.endsWith("_value")) {
+            newValues.push(item[key]);
+          }
+        }));
 
-      Object.keys(item).forEach((key => {
-        if (key.startsWith("old_") && key.endsWith("_saleableUnit")) {
-          oldSaleableUnit.push(item[key]);
-        }
-      }));
+        Object.keys(item).forEach((key => {
+          if (key.startsWith("old_") && key.endsWith("_saleableUnit")) {
+            oldSaleableUnit.push(item[key]);
+          }
+        }));
 
 
-      Object.keys(item).forEach((key => {
-        if (key.startsWith("new_") && key.endsWith("_saleableUnit")) {
-          newSaleableUnit.push(item[key]);
-        }
-      }));
-      
+        Object.keys(item).forEach((key => {
+          if (key.startsWith("new_") && key.endsWith("_saleableUnit")) {
+            newSaleableUnit.push(item[key]);
+          }
+        }));
+
+
+      });
+      res.json({ "oldValues": oldValues, "newValues": newValues, "oldSaleableUnit": oldSaleableUnit, "newSaleableUnit": newSaleableUnit });
 
     });
-    res.json({ "oldValues": oldValues, "newValues": newValues, "oldSaleableUnit": oldSaleableUnit, "newSaleableUnit": newSaleableUnit });
+  }
+  catch(error){
+    logger.verbose(`${req.query.userName} | \t ${process.env.URL}/summary/barCharData | \t ${error}`)
 
-  });
+  }
 });
+
+
+
+
+
+// API to update SALEPLAN FOR NEXT QUATER
+
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+
+
+router.post("/updateSalePlan", (req,res) => {
+  
+  let query = `
+    INSERT INTO SALESPLAN_SIMULATION_backup
+    SELECT  * , '${formatDate(new Date())}' AS [CREATED_AT] from SALESPLAN_SIMULATION
+    WHERE ([MERCHANT] LIKE '%${req.query.name}%' AND [PRODUCT_CAT] LIKE '%${req.query.selectedProduct}%') OR ([TEAM_LEADER] LIKE '%${req.query.name}%' AND [PRODUCT_CAT] LIKE '%${req.query.selectedProduct}%');
+
+    UPDATE [SALESPLAN_SIMULATION]
+    SET
+  `
+  jsonData.map(({key,value},index) => {
+    if(index == 0 || index < jsonData.length-1 && key != "[WT/PC]"){
+      query+= `[SALESPLAN_SIMULATION].${key} = [SALESPLAN_PUBLISH].${key},` 
+    }
+    else if(index == jsonData.length-1 && key != "[WT/PC]"){
+      query+= `[SALESPLAN_SIMULATION].${key} = [SALESPLAN_PUBLISH].${key}`
+    }
+  })
+
+  query+= ` FROM [SALESPLAN_SIMULATION],[SALESPLAN_PUBLISH] 
+  WHERE [SALESPLAN_SIMULATION].UNIQUE_IDENTIFICATION_NO = [SALESPLAN_PUBLISH].UNIQUE_IDENTIFICATION_NO AND 
+        ([SALESPLAN_SIMULATION].[TEAM_LEADER] = '${req.query.name}' OR [SALESPLAN_SIMULATION].[MERCHANT] = '${req.query.name}') AND
+        ([SALESPLAN_SIMULATION].[PRODUCT_CAT] = '${req.query.selectedProduct}')
+  `
+  
+  console.log("this is the update sale plan API",query);
+
+  setSimulation(query).then((data) => {
+
+    res.json(data);
+
+  })
+
+})
 
 
 module.exports = router;

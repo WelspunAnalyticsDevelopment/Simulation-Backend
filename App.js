@@ -10,10 +10,10 @@ const simulationRoutes = require('./Simulation/Simulation');
 const indexRoutes = require('./routes/index');
 
 var app = express();
-logger.info("Vivek Joshi | \t Test data")
-logger.debug("Vivek Joshi | \t Test data debug")
-logger.error("Vivek Joshi | \t test error")
-logger.verbose("Vivek Joshi | \t final verbose")
+// logger.info("Vivek Joshi | \t Test data")
+// logger.debug("Vivek Joshi | \t Test data debug")
+// logger.error("Vivek Joshi | \t test error")
+// logger.verbose("Vivek Joshi | \t final verbose")
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -33,5 +33,21 @@ app.use('/', indexRoutes);
 app.use('/summary', summaryRoutes);
 
 app.use('/simulation', simulationRoutes);
+
+
+//API TO PRINT FRONTEND ERROR LOGS
+
+app.post("/pushErrorLogs",(req,res) => {
+  if(req.query.logType == 'info'){
+    logger.info(`${req.query.userName} | \t ${req.query.functionName} | \t ${req.query.msg}`)
+  }
+  else if(req.query.logType == 'debug'){
+    logger.debug(`${req.query.userName} | \t ${req.query.functionName} | \t ${req.query.msg}`)
+  }
+  else if(req.query.logType == 'verbose'){
+    logger.verbose(`${req.query.userName} | \t ${req.query.functionName} | \t ${req.query.msg}`)
+  }
+  res.status(200).json({error : "Error Log pushed Successfully"})
+})
 
 module.exports = app;
