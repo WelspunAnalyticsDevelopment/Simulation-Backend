@@ -1078,13 +1078,13 @@ router.post('/publish-version', async (req, res) => {
     // console.log(req);
 
     jsonData.map(({ key, value }, index) => {
-      if (index === 0) {
+      if (index === 0 && key != '[WT/PC]') {
         query += `Insert INTO SALESPLAN_PUBLISH ( [VERSION_NO] , ${key},`
       }
-      else if (index > 0 && index !== jsonData.length - 1) {
+      else if (index > 0 && index !== jsonData.length - 1 && key != '[WT/PC]') {
         query += `${key},`
       }
-      else {
+      else if (index == jsonData.length-1 && key != '[WT/PC]') {
         query += ` ${key}) Values`
       }
     })
